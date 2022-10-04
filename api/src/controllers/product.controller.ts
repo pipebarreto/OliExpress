@@ -51,7 +51,7 @@ export const deleteProduct = async (
   next: NextFunction
 ) => {
   try {
-    await productService.deleteProduct(req.params.movieId)
+    await productService.deleteProduct(req.params.productId)
     res.status(204).end()
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -68,7 +68,7 @@ export const findById = async (
   next: NextFunction
 ) => {
   try {
-    res.json(await productService.findById(req.params.movieId))
+    res.json(await productService.findById(req.params.productId))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', 400, error))
@@ -85,7 +85,7 @@ export const updateProduct = async (
 ) => {
   try {
     const update = req.body
-    const productId = req.params.movieId
+    const productId = req.params.productId
     const updatedProduct = await productService.updateProduct(productId, update)
     res.json(updatedProduct)
   } catch (error) {

@@ -3,7 +3,7 @@ import mongoose, { Document } from 'mongoose'
 export type UserDocument = Document & {
   name: string
   email: string
-  password: number
+  password: string
 }
 
 const serviceSchema = new mongoose.Schema({

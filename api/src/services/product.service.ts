@@ -13,7 +13,7 @@ const findById = async (productId: string): Promise<ProductDocument> => {
   const foundProduct = await Product.findById(productId)
 
   if (!foundProduct) {
-    throw new NotFoundError(`Movie ${productId} not found`)
+    throw new NotFoundError(`Products ${productId} not found`)
   }
 
   return foundProduct
@@ -25,7 +25,7 @@ const deleteProduct = async (
   const foundProduct = Product.findByIdAndDelete(productId)
 
   if (!foundProduct) {
-    throw new NotFoundError(`Movie ${productId} not found`)
+    throw new NotFoundError(`Products ${productId} not found`)
   }
   return foundProduct
 }
@@ -38,7 +38,7 @@ const updateProduct = async (
     new: true,
   })
   if (!foundProduct) {
-    throw new NotFoundError(`Movie ${foundProduct} not found`)
+    throw new NotFoundError(`Product ${foundProduct} not found`)
   }
 
   return foundProduct

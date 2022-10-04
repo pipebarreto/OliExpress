@@ -14,7 +14,8 @@
       "*": [
         "node_modules/*",
       ]
-    }
+    },
+  "types":["jest", "node"],
   },
   "include": [
     "src/**/*"
@@ -25,9 +26,9 @@
   "files": [
     "global.d.ts"
   ],
-  "exclude": [
+  /*"exclude": [
     "*.test.ts",
     "*.fixture.ts",
     "db-helper.ts"
-  ]
+  ]*/
 }
