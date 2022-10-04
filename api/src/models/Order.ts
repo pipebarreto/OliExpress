@@ -1,4 +1,4 @@
-import mongoose, { Document } from 'mongoose'
+import mongoose, { Document, Schema } from 'mongoose'
 import Product from './Product'
 
 export type OrderDocument = Document & {
@@ -8,8 +8,8 @@ export type OrderDocument = Document & {
 
 const serviceSchema = new mongoose.Schema({
   product: {
-    type: Product,
-    index: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
   },
   quantity: {
     type: Number,

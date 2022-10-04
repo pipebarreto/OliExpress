@@ -1,5 +1,14 @@
+import { NavBar } from "components/NavBar"
+import ProductCard from "components/ProductCard"
+
 const Home = () => {
-  return <h1>HOME</h1>
+
+  return (
+  <>
+  <NavBar />
+  <ProductCard />
+  </>
+  )
 }
 
 export default Home

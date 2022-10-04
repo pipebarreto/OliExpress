@@ -1,7 +1,6 @@
-import mongoose, { Document, Schema } from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 
 export type ProductDocument = Document & {
-  _id: Schema.Types.ObjectId
   name: string
   description: string
   price: number
