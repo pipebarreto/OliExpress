@@ -7,11 +7,15 @@ import CardContent from '@mui/material/CardContent';
 import { Button, CardActionArea, CardMedia, Grid } from "@mui/material";
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/Button'
+import { Product } from "types";
+
 
 export default function ProductCard (props:any){
 
   const [number, setNumber]= useState(1);
   const invalid = number < 1;
+
+  console.log(props);
 
   return(   
     
@@ -29,11 +33,15 @@ export default function ProductCard (props:any){
       
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Product name
+          {props.product.name}
         </Typography>
 
         <Typography variant="body2" color="text.secondary">
-          Description of the product
+          {props.product.description}
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          {props.product.price}
         </Typography>
 
       </CardContent>
