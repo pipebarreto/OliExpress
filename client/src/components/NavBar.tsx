@@ -1,6 +1,7 @@
 import { AppBar } from '@mui/material'
 import { Toolbar } from '@mui/material'
 import Typography from '@mui/material/Typography'
+import CartList from './CartList'
 
 
 export function NavBar() {
@@ -19,6 +20,7 @@ export function NavBar() {
             sx={{ flex: 1 }}>
             Welcome to OliExpress!
           </Typography>
+          <CartList />
         </Toolbar>
       </AppBar>
     </div>

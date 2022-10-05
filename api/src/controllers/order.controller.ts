@@ -18,8 +18,8 @@ export const createOrder = async (
       quantity,
     })
 
-    await orderService.create(product)
-    res.json(product)
+    await orderService.create(order)
+    res.json(order)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', 400, error))

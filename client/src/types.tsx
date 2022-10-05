@@ -4,3 +4,9 @@ export type Product ={
     price: number,
     _id: string
 }
+
+export type Order ={
+    product: any
+    quantity: number, 
+    id: Product
+}

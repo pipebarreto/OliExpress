@@ -11,12 +11,14 @@ const Home = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const { products } = useSelector((state: RootState) => state)
-  const productlist = products.items
+  const productList = products.items
 
 
   useEffect(() => {
     dispatch(fetchProductsThunk())
   }, [dispatch])
+
+  console.log(productList)
 
 
   return (
@@ -30,9 +32,9 @@ const Home = () => {
         paddingRight={20}
         >
 
-  {productlist.map((productlist: Product, index: number)=>(
+  {productList.map((productList: Product, index: number)=>(
 
-  <ProductCard  key={index}  product={productlist}/>
+  <ProductCard  key={index}  product={productList}/>
 
   ))} 
 

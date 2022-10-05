@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose'
+import { ProductDocument } from './Product'
 
 export type OrderDocument = Document & {
-  product: object
+  product: ProductDocument
   quantity: number
 }
 

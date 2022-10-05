@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { Product } from '../types'
+import { Order } from '../types'
 
 export interface productsState {
-  items: Product[]
+  items: Order[]
   isLoading: boolean
 }
 
@@ -12,10 +12,10 @@ const initialState: productsState = {
   isLoading: false,
 }
 
-export const fetchProductsThunk = createAsyncThunk(
-  'products/fetch',
+export const fetchOrdersThunk = createAsyncThunk(
+  'orders/fetch',
   async () => {
-    const URL = `http://localhost:4000/api/v1/products`
+    const URL = `http://localhost:4000/api/v1/orders`
     const response = await axios.get(URL)
     return {
       data: response.data,
@@ -24,17 +24,17 @@ export const fetchProductsThunk = createAsyncThunk(
   }
 )
 
-export const products = createSlice({
-  name: 'products',
+export const orders = createSlice({
+  name: 'orders',
   initialState,
   reducers: {},
 
   extraReducers: (builder) => {
-    builder.addCase(fetchProductsThunk.pending, (state) => {
+    builder.addCase(fetchOrdersThunk.pending, (state) => {
       state.isLoading = true
     })
 
-    builder.addCase(fetchProductsThunk.fulfilled, (state, action) => {
+    builder.addCase(fetchOrdersThunk.fulfilled, (state, action) => {
       state.items = action.payload.data
       state.isLoading = false
     })
@@ -42,4 +42,4 @@ export const products = createSlice({
 })
 
 
-export default products.reducer
+export default orders.reducer
