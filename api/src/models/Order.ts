@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from 'mongoose'
-import Product from './Product'
 
 export type OrderDocument = Document & {
   product: object

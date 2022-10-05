@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material"
 import { NavBar } from "components/NavBar"
 import ProductCard from "components/ProductCard"
 import { useEffect } from "react"
@@ -22,11 +23,20 @@ const Home = () => {
   <>
   <NavBar />
 
+  <Grid container 
+        direction="row"
+        alignItems="center"
+        paddingLeft={20}
+        paddingRight={20}
+        >
+
   {productlist.map((productlist: Product, index: number)=>(
 
   <ProductCard  key={index}  product={productlist}/>
 
   ))} 
+
+  </Grid>
   </>
 
   )

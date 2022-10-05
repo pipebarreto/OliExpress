@@ -15,11 +15,9 @@ export default function ProductCard (props:any){
   const [number, setNumber]= useState(1);
   const invalid = number < 1;
 
-  console.log(props);
-
   return(   
     
-  <div style ={{margin:10}}>
+  <div style ={{margin:20}}>
 
     <Card variant="elevation" sx={{ width: 250, height:'auto', padding:5}}>
     <CardActionArea>
@@ -41,7 +39,7 @@ export default function ProductCard (props:any){
         </Typography>
 
         <Typography variant="body2" color="text.secondary">
-          {props.product.price}
+          €{props.product.price}
         </Typography>
 
       </CardContent>

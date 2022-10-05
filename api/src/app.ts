@@ -8,6 +8,7 @@ import cors from 'cors'
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
 import productRouter from './routers/product.router'
+import orderRouter from './routers/order.router'
 
 dotenv.config({ path: '.env' })
 const app = express()
@@ -44,6 +45,7 @@ app.use(passport.session())
 // Set up routers
 
 app.use('/api/v1/products', productRouter)
+app.use('/api/v1/orders', orderRouter)
 
 // Custom API error handler
 app.use(apiErrorHandler)
