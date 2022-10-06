@@ -19,15 +19,16 @@ export default function () {
   const { orders } = useSelector((state: RootState) => state)
   const orderList = orders.items
 
+  console.log(orderList)
+
     useEffect(() => {
         dispatch(fetchOrdersThunk())
         }, [dispatch])
   
   const deleteFromCart =(orderId: String)=>{
-    fetch('http://localhost:4000/api/v1/orders',
-      {method:'POST',
-      headers:{'Content-Type': 'application/json'},
-      body: JSON.stringify(`_id: ${orderId}`)
+    console.log("+"+orderId)
+    fetch(`http://localhost:4000/api/v1/orders/${orderId}`,
+      {method:'DELETE'
     })
     .then(response=>{
       console.log(response)
@@ -80,7 +81,7 @@ export default function () {
           return (
             <div style={{ padding: '2px' }}>
               {item.product.name} x {item.quantity}
-              <IconButton color="error"  onClick={() => deleteFromCart(orders._id)}> <DeleteIcon />
+              <IconButton color="error"  onClick={() => deleteFromCart(item._id)}> <DeleteIcon />
               </IconButton>
             </div>
           )
