@@ -21,7 +21,6 @@ const findById = async (orderId: string): Promise<OrderDocument> => {
 
 const deleteOrder = async (orderId: string): Promise<OrderDocument | null> => {
   const foundOrder = Order.findByIdAndDelete(orderId)
-
   if (!foundOrder) {
     throw new NotFoundError(`Products ${orderId} not found`)
   }

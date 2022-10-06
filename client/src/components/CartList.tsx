@@ -22,8 +22,24 @@ export default function () {
     useEffect(() => {
         dispatch(fetchOrdersThunk())
         }, [dispatch])
-
-  console.log(orderList)
+  
+  const deleteFromCart =(orderId: String)=>{
+    fetch('http://localhost:4000/api/v1/orders',
+      {method:'POST',
+      headers:{'Content-Type': 'application/json'},
+      body: JSON.stringify(`_id: ${orderId}`)
+    })
+    .then(response=>{
+      console.log(response)
+      if (response.ok) {
+        dispatch(fetchOrdersThunk())
+        } 
+      else{
+       alert('Something went wrong');
+      }
+    })
+    .catch(err => console.error(err))
+  }
 
   const [state, setState] = React.useState({
     right: false,
@@ -35,11 +51,9 @@ export default function () {
         if (
           event.type === 'keydown' &&
         ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-        ) {
+          (event as React.KeyboardEvent).key === 'Shift')) {
           return
         }
-
         setState({ ...state, [anchor]: open })
       }
 
@@ -47,8 +61,8 @@ export default function () {
     <Box
       sx={{ width: 300, padding: '10px' }}
       onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
+      onKeyDown={toggleDrawer(anchor, false)}>
+
       <List>
         <Typography variant="h4" style={{ padding: '10px' }}>
           Cart List
@@ -59,28 +73,27 @@ export default function () {
         {orderList.length === 0 && (
           <Typography variant="h6" style={{ padding: '10px' }}>
             Nothing to show
-          </Typography>
-        )}
+          </Typography>)}
 
-        {orderList.map((item) => {
+        {orderList.map((item, index) => {
+
           return (
             <div style={{ padding: '2px' }}>
-              <IconButton
-                color="error"
-              >
-                <DeleteIcon />{item.product.name}
+              {item.product.name} x {item.quantity}
+              <IconButton color="error"  onClick={() => deleteFromCart(orders._id)}> <DeleteIcon />
               </IconButton>
             </div>
           )
         })}
 
         <Divider />
-
         <IconButton color="success" style={{ padding: '20px' }}>
           <ShoppingCartIcon />
           Check out
         </IconButton>
       </List>
+
+
     </Box>
   )
 
@@ -97,9 +110,9 @@ export default function () {
           <Drawer
             anchor={anchor}
             open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
+            onClose={toggleDrawer(anchor, false)}>
             {list(anchor)}
+
           </Drawer>
         </React.Fragment>
       ))}

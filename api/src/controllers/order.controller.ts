@@ -12,7 +12,6 @@ export const createOrder = async (
 ) => {
   try {
     const { product, quantity } = req.body
-
     const order = new Order({
       product,
       quantity,
@@ -51,7 +50,7 @@ export const deleteOrder = async (
   next: NextFunction
 ) => {
   try {
-    await orderService.deleteOrder(req.params.productId)
+    await orderService.deleteOrder(req.params.orderId)
     res.status(204).end()
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -68,7 +67,7 @@ export const findById = async (
   next: NextFunction
 ) => {
   try {
-    res.json(await orderService.findById(req.params.productId))
+    res.json(await orderService.findById(req.params.orderId))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', 400, error))

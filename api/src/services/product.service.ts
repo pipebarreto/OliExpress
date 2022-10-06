@@ -23,7 +23,6 @@ const deleteProduct = async (
   productId: string
 ): Promise<ProductDocument | null> => {
   const foundProduct = Product.findByIdAndDelete(productId)
-
   if (!foundProduct) {
     throw new NotFoundError(`Products ${productId} not found`)
   }

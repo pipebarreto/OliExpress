@@ -17,6 +17,7 @@ export const fetchProductsThunk = createAsyncThunk(
   async () => {
     const URL = `http://localhost:4000/api/v1/products`
     const response = await axios.get(URL)
+    console.log(response)
     return {
       data: response.data,
       status: response.status,

@@ -8,12 +8,54 @@ import { Button, CardActionArea, CardMedia, Grid } from "@mui/material";
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/Button'
 import { Product } from "types";
+import axios from "axios";
+import { fetchOrdersThunk } from "redux/orderSlice";
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "redux/store";
 
 
 export default function ProductCard (props:any){
 
-  const [number, setNumber]= useState(1);
-  const invalid = number < 1;
+  const dispatch = useDispatch<AppDispatch>()
+
+  const [quantity, setQuantity]= useState(1);
+  const invalid = quantity <= 1;
+
+
+  /*const addToCart: any (
+  async () => {
+    const URL = `http://localhost:4000/api/v1/orders`
+    const response = await axios.post(URL)
+
+    return {
+      data: response.data,
+      status: response.status,
+    }
+  )*/
+
+  const addToCart =(productId: String, quantity: number)=>{
+    const body={
+      product: productId,
+      quantity: quantity,
+    }
+
+
+    fetch('http://localhost:4000/api/v1/orders',
+      {method:'POST',
+      headers:{'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    })
+    .then(response=>{
+      console.log(response)
+      if (response.ok) {
+        dispatch(fetchOrdersThunk())
+        } 
+      else{
+       alert('Something went wrong');
+      }
+    })
+    .catch(err => console.error(err))
+  }
 
   return(   
     
@@ -25,7 +67,7 @@ export default function ProductCard (props:any){
     <CardMedia
         component="img"
         height="140"
-        image="https://thumbs.dreamstime.com/z/freeware-badge-vector-white-background-58987663.jpg"
+        image={props.product.image}
         alt="free ware"
       />
       
@@ -53,18 +95,18 @@ export default function ProductCard (props:any){
 
         <Grid container direction="row" alignItems="center" justifyContent="center" padding={1}>
 
-          <Button  disabled={invalid} onClick={() => {setNumber(number-1)}}>-</Button>
+          <Button  disabled={invalid} onClick={() => {setQuantity(quantity-1)}}>-</Button>
 
           <Typography variant="body2" >
-            {number}
+            {quantity}
            </Typography>
 
-          <Button onClick={() => {setNumber(number+1)}}>+</Button>
+          <Button onClick={() => {setQuantity(quantity+1)}}>+</Button>
     
         </Grid>
 
 
-      <IconButton variant="outlined">
+      <IconButton variant="outlined" onClick={() => addToCart(props.product._id, quantity)}>
       <ShoppingCart />
         Add to cart
       </IconButton> 

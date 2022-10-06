@@ -13,13 +13,9 @@ const Home = () => {
   const { products } = useSelector((state: RootState) => state)
   const productList = products.items
 
-
   useEffect(() => {
     dispatch(fetchProductsThunk())
   }, [dispatch])
-
-  console.log(productList)
-
 
   return (
   <>
@@ -34,7 +30,7 @@ const Home = () => {
 
   {productList.map((productList: Product, index: number)=>(
 
-  <ProductCard  key={index}  product={productList}/>
+  <ProductCard  key={index} product={productList}/>
 
   ))} 
 

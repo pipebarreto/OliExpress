@@ -3,12 +3,14 @@ import axios from 'axios'
 import { Order } from '../types'
 
 export interface productsState {
-  items: Order[]
+  items: Order[],
+  _id:'',
   isLoading: boolean
 }
 
 const initialState: productsState = {
   items: [],
+  _id:'',
   isLoading: false,
 }
 
@@ -27,7 +29,23 @@ export const fetchOrdersThunk = createAsyncThunk(
 export const orders = createSlice({
   name: 'orders',
   initialState,
-  reducers: {},
+  reducers: {
+
+    /*addProduct: (state, action) => {
+      const { product, quantity } = action.payload.productToAdd
+      const order = { product, quantity }
+
+      state.items = [...state.items, order]
+    },*/
+
+    /*removeCountry: (state, action) => {
+      const filteredCountries = state.items.filter(
+        (item) => item.name.common !== action.payload.name.common
+      )
+
+      state.items = filteredCountries
+    },*/
+  },
 
   extraReducers: (builder) => {
     builder.addCase(fetchOrdersThunk.pending, (state) => {
@@ -38,7 +56,9 @@ export const orders = createSlice({
       state.items = action.payload.data
       state.isLoading = false
     })
+    
   },
+  
 })
 
 

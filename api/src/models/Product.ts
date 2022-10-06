@@ -4,6 +4,7 @@ export type ProductDocument = Document & {
   name: string
   description: string
   price: number
+  image: string
 }
 
 const serviceSchema = new mongoose.Schema({
@@ -18,6 +19,10 @@ const serviceSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+  },
+  image: {
+    type: String,
+    index: true,
   },
 })
 
