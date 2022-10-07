@@ -19,7 +19,6 @@ export const createOrder = async (
     })
 
     const productOrder = await productService.findById(product)
-
     order.total_price = quantity * productOrder.price
 
     await orderService.create(order)

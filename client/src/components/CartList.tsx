@@ -11,6 +11,7 @@ import Badge from '@mui/material/Badge'
 import { useEffect, useState } from 'react'
 import { fetchOrdersThunk } from 'redux/orderSlice'
 import { Order } from 'types'
+import { Snackbar } from '@mui/material';
 
 
 type Anchor = 'right'
@@ -18,9 +19,12 @@ type Anchor = 'right'
 export default function () {
     const dispatch = useDispatch<AppDispatch>()
   const { orders } = useSelector((state: RootState) => state)
-  const orderList = orders.items
+  const orderList = orders.items;
+
+  const [open, setOpen]= useState(false);
  
   const total = (orderList.reduce((a,v) =>  a = a + v.total_price , 0 ));
+
 
     useEffect(() => {
         dispatch(fetchOrdersThunk())
@@ -35,6 +39,7 @@ export default function () {
       console.log(response)
       if (response.ok) {
         dispatch(fetchOrdersThunk())
+        setOpen(true);
         } 
       else{
        alert('Something went wrong');
@@ -63,10 +68,9 @@ export default function () {
       onKeyDown={toggleDrawer(anchor, false)}>
 
       <List>
-        <Typography variant="h4" style={{ padding: '10px' }}>
+        <Typography variant="h4" style={{ padding: '10px', color:"blue" }}>
           Cart List
         </Typography>
-
         <Divider />
 
         {orderList.length === 0 && (
@@ -78,17 +82,24 @@ export default function () {
 
           return (
             <div style={{ padding: '2px' }}>
-              {item.product.name}:  {item.quantity} x €{item.total_price} = €{item.total_price}
-              <IconButton color="error"  onClick={() => deleteFromCart(item._id)}> <DeleteIcon />
+              <Typography variant="h6" style={{ paddingInline: '10px', paddingBlock: '5px' }}>
+              {item.product.name}:  {item.quantity}pcs <br/> Total: € {item.total_price}
+              </Typography>
+
+              <IconButton size="small" color="error"  onClick={() => deleteFromCart(item._id)}> <DeleteIcon />
+              Delete from Cart
               </IconButton>
             </div>
           )
         })}
 
         <Divider />
-        <IconButton color="success" style={{ padding: '20px' }}>
+        <Typography variant="h5" style={{ paddingInline: '10px', paddingBlock: '20px', color:"blue" }}>
+           Total to pay: € {total}
+          </Typography>
+        <IconButton color="success" style={{ padding: '10px' }}>
           <ShoppingCartIcon />
-          Check out {total}
+          Check out
         </IconButton>
       </List>
 
@@ -115,6 +126,14 @@ export default function () {
           </Drawer>
         </React.Fragment>
       ))}
+
+  <Snackbar
+    open={open}
+    autoHideDuration={3000}
+    onClose={()=> setOpen(false)}
+    message ="Product removed from cart"
+    />
+
     </div>
   )
 }

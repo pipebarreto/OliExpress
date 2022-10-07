@@ -7,11 +7,11 @@ import CardContent from '@mui/material/CardContent';
 import { Button, CardActionArea, CardMedia, Grid } from "@mui/material";
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/Button'
-import { Product } from "types";
 import axios from "axios";
 import { fetchOrdersThunk } from "redux/orderSlice";
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "redux/store";
+import { Snackbar } from '@mui/material';
 
 
 export default function ProductCard (props:any){
@@ -20,6 +20,8 @@ export default function ProductCard (props:any){
 
   const [quantity, setQuantity]= useState(1);
   const invalid = quantity <= 1;
+
+  const [open, setOpen]= useState(false);
 
 
   /*const addToCart: any (
@@ -48,7 +50,8 @@ export default function ProductCard (props:any){
     .then(response=>{
       console.log(response)
       if (response.ok) {
-        dispatch(fetchOrdersThunk())
+        dispatch(fetchOrdersThunk());
+        setOpen(true);
         } 
       else{
        alert('Something went wrong');
@@ -58,7 +61,6 @@ export default function ProductCard (props:any){
   }
 
   return(   
-    
   <div style ={{margin:20}}>
 
     <Card variant="elevation" sx={{ width: 250, height:'auto', padding:5}}>
@@ -69,8 +71,7 @@ export default function ProductCard (props:any){
         height="140"
         image={props.product.image}
         alt="free ware"
-      />
-      
+      />      
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.product.name}
@@ -80,31 +81,23 @@ export default function ProductCard (props:any){
           {props.product.description}
         </Typography>
 
-        <Typography variant="body2" color="text.secondary">
-          €{props.product.price}
+        <Typography variant="body1" color="text.secondary">
+          <br/>€{props.product.price}
         </Typography>
 
       </CardContent>
-
       </CardActionArea>
-
       <CardActions >
 
       <Grid container direction="column"
         alignItems="center"  justifyContent="end">
-
         <Grid container direction="row" alignItems="center" justifyContent="center" padding={1}>
-
           <Button  disabled={invalid} onClick={() => {setQuantity(quantity-1)}}>-</Button>
-
           <Typography variant="body2" >
             {quantity}
            </Typography>
-
-          <Button onClick={() => {setQuantity(quantity+1)}}>+</Button>
-    
+          <Button onClick={() => {setQuantity(quantity+1)}}>+</Button>   
         </Grid>
-
 
       <IconButton variant="outlined" onClick={() => addToCart(props.product._id, quantity)}>
       <ShoppingCart />
@@ -113,8 +106,14 @@ export default function ProductCard (props:any){
       
       </Grid>
       </CardActions>
-
     </Card>
+
+  <Snackbar
+    open={open}
+    autoHideDuration={3000}
+    onClose={()=> setOpen(false)}
+    message ="Product succesfully added to cart!"
+    />
     
   </div>
 
