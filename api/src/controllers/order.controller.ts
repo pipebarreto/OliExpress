@@ -4,6 +4,7 @@ import Product from '../models/Product'
 import orderService from '../services/order.service'
 import { BadRequestError } from '../helpers/apiError'
 import Order from '../models/Order'
+import productService from '../services/product.service'
 
 export const createOrder = async (
   req: Request,
@@ -11,12 +12,15 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    const { product, quantity, total_price } = req.body
+    const { product, quantity } = req.body
     const order = new Order({
       product,
       quantity,
-      total_price,
     })
+
+    const productOrder = await productService.findById(product)
+
+    order.total_price = quantity * productOrder.price
 
     await orderService.create(order)
     res.json(order)

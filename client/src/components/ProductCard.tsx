@@ -37,7 +37,6 @@ export default function ProductCard (props:any){
     const body={
       product: productId,
       quantity: quantity,
-      total_price: (props.product.price * quantity)
     }
 
 
