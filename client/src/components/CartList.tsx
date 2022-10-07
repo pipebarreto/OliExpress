@@ -8,8 +8,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Divider from '@mui/material/Divider'
 import Badge from '@mui/material/Badge'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { fetchOrdersThunk } from 'redux/orderSlice'
+import { Order } from 'types'
 
 
 type Anchor = 'right'
@@ -18,8 +19,8 @@ export default function () {
     const dispatch = useDispatch<AppDispatch>()
   const { orders } = useSelector((state: RootState) => state)
   const orderList = orders.items
-
-  console.log(orderList)
+ 
+  const total = (orderList.reduce((a,v) =>  a = a + v.total_price , 0 ));
 
     useEffect(() => {
         dispatch(fetchOrdersThunk())
@@ -43,8 +44,7 @@ export default function () {
   }
 
   const [state, setState] = React.useState({
-    right: false,
-  })
+    right: false})
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -53,14 +53,12 @@ export default function () {
           event.type === 'keydown' &&
         ((event as React.KeyboardEvent).key === 'Tab' ||
           (event as React.KeyboardEvent).key === 'Shift')) {
-          return
-        }
+          return}
         setState({ ...state, [anchor]: open })
       }
 
   const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width: 300, padding: '10px' }}
+    <Box sx={{ width: 300, padding: '10px' }}
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}>
 
@@ -76,11 +74,11 @@ export default function () {
             Nothing to show
           </Typography>)}
 
-        {orderList.map((item, index) => {
+        {orderList.map((item: Order, index) => {
 
           return (
             <div style={{ padding: '2px' }}>
-              {item.product.name} x {item.quantity}
+              {item.product.name}:  {item.quantity} x €{item.total_price} = €{item.total_price}
               <IconButton color="error"  onClick={() => deleteFromCart(item._id)}> <DeleteIcon />
               </IconButton>
             </div>
@@ -90,7 +88,7 @@ export default function () {
         <Divider />
         <IconButton color="success" style={{ padding: '20px' }}>
           <ShoppingCartIcon />
-          Check out
+          Check out {total}
         </IconButton>
       </List>
 

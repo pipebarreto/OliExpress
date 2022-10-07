@@ -4,6 +4,7 @@ import { ProductDocument } from './Product'
 export type OrderDocument = Document & {
   product: ProductDocument
   quantity: number
+  total_price: number
 }
 
 const serviceSchema = new mongoose.Schema({
@@ -12,6 +13,10 @@ const serviceSchema = new mongoose.Schema({
     ref: 'Product',
   },
   quantity: {
+    type: Number,
+    required: true,
+  },
+  total_price: {
     type: Number,
     required: true,
   },

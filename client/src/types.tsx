@@ -6,8 +6,8 @@ export type Product ={
 }
 
 export type Order ={
-    product?: any
+    product: any
     quantity: number, 
-    id?: Product,
-    _id: string
+    _id: string,
+    total_price: number
 }
