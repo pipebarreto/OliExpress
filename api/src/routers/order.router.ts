@@ -6,11 +6,12 @@ import {
   findById,
   updateOrder,
 } from '../controllers/order.controller'
+import checkAuth from '../middlewares/checkAuth'
 
 const router = express.Router()
 
 // Every path we define here will get /api/v1/movies prefix
-router.get('/', findAll)
+router.get('/', checkAuth, findAll)
 router.post('/', createOrder)
 router.delete('/:orderId', deleteOrder)
 router.put('/:orderId', updateOrder)

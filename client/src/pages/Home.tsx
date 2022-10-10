@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchProductsThunk } from "redux/productSlice"
 import { AppDispatch, RootState } from "redux/store"
 import { Product } from "types"
+import { GoogleLogin } from '@react-oauth/google';
 
 const Home = () => {
 
@@ -17,9 +18,21 @@ const Home = () => {
     dispatch(fetchProductsThunk())
   }, [dispatch])
 
+
   return (
   <>
+
   <NavBar />
+
+  <GoogleLogin
+  onSuccess={credentialResponse => {
+    console.log(credentialResponse);
+  }}
+  onError={() => {
+    console.log('Login Failed')
+  }}
+/>
+
 
   <Grid container 
         direction="row"

@@ -11,7 +11,6 @@ const findAll = async (): Promise<ProductDocument[]> => {
 
 const findById = async (productId: string): Promise<ProductDocument> => {
   const foundProduct = await Product.findById(productId)
-
   if (!foundProduct) {
     throw new NotFoundError(`Products ${productId} not found`)
   }
