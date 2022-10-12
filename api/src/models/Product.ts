@@ -25,7 +25,6 @@ const serviceSchema = new mongoose.Schema({
   category: {
     type: String,
     enum: ['Fashion', 'Technology', 'Toys', 'Furniture', 'Other'],
-    default: 'Other',
     required: false,
   },
   image: {

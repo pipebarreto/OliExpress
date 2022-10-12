@@ -8,10 +8,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Product } from 'types';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/Button';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { useEffect } from 'react';
+import { FormControl, InputLabel } from '@mui/material';
+
 
 export default function EditProduct({params, editProduct}:any) {
   const [open, setOpen] = React.useState(false);
   params=params.product;
+
   const[product, setProduct]=React.useState({
       name:params.name,
       description:params.description,
@@ -20,7 +26,15 @@ export default function EditProduct({params, editProduct}:any) {
       price:params.price
   });
 
+
   const handleClickOpen = () => {
+    setProduct({
+        name:params.name,
+        description:params.description,
+        category:params.category,
+        image:params.image,
+        price:params.price
+    })
     setOpen(true);
   };
 
@@ -66,15 +80,6 @@ export default function EditProduct({params, editProduct}:any) {
           />
           <TextField
             margin="dense"
-            name='category'
-            value={product.category}
-            onChange={inputChanged}
-            label="Category"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
             name='image'
             value={product.image}
             onChange={inputChanged}
@@ -91,6 +96,22 @@ export default function EditProduct({params, editProduct}:any) {
             fullWidth
             variant="standard"
           />
+        <FormControl variant="standard" sx={{ minWidth: 200 }}>
+        <InputLabel id="demo-simple-select-filled-label">Category</InputLabel>
+        <Select
+                    name='category'
+                    value={product.category}
+                    onChange={inputChanged}
+                    fullWidth
+                    label="Price"
+                    variant="standard">
+            <MenuItem value={'Other'}>Other</MenuItem>
+          <MenuItem value={'Technology'}>Technology</MenuItem>
+          <MenuItem value={'Fashion'}>Fashion</MenuItem>
+          <MenuItem value={'Toys'}>Toys</MenuItem>
+          <MenuItem value={'Furniture'}>Furniture</MenuItem>
+        </Select>
+        </FormControl>
 
 
         </DialogContent>

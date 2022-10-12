@@ -28,18 +28,6 @@ export default function ProductCard (props:any){
 
   const [open, setOpen]= useState(false);
 
-
-  /*const addToCart: any (
-  async () => {
-    const URL = `http://localhost:4000/api/v1/orders`
-    const response = await axios.post(URL)
-
-    return {
-      data: response.data,
-      status: response.status,
-    }
-  )*/
-
   const addToCart =(productId: String, quantity: number)=>{
     const body={
       product: productId,
@@ -66,6 +54,7 @@ export default function ProductCard (props:any){
   }
 
   const editProduct =(updatedProduct:Product)=>{
+    console.log(props.product._id)
     fetch(`http://localhost:4000/api/v1/products/${props.product._id}`,
       {method:'PUT',
       headers:{'Content-Type': 'application/json',
@@ -82,7 +71,7 @@ export default function ProductCard (props:any){
     .catch(err => console.error(err))
   }
 
-  const deleteCustomer =() => {
+  const deleteProduct =() => {
     if (window.confirm('Are you sure? Product will be deleted')){
       fetch (`http://localhost:4000/api/v1/products/${props.product._id}`, {method: 'DELETE',
       headers:{Authorization:`Bearer ${token}`},
@@ -147,7 +136,7 @@ export default function ProductCard (props:any){
       <Grid container direction="row" alignItems="center" justifyContent="center" padding={1}>
       <EditProduct params={props} editProduct={editProduct} />
       
-      <IconButton color="error" onClick ={() => deleteCustomer ()}><DeleteIcon />
+      <IconButton color="error" onClick ={() => deleteProduct ()}><DeleteIcon />
       </IconButton> 
         </Grid>
 
