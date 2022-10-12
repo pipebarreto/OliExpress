@@ -18,6 +18,8 @@ type Anchor = 'right'
 
 export default function () {
     const dispatch = useDispatch<AppDispatch>()
+    const token = localStorage.getItem('token');
+
   const { orders } = useSelector((state: RootState) => state)
   const orderList = orders.items;
 
@@ -31,12 +33,11 @@ export default function () {
         }, [dispatch])
   
   const deleteFromCart =(orderId: String)=>{
-    console.log("+"+orderId)
     fetch(`http://localhost:4000/api/v1/orders/${orderId}`,
-      {method:'DELETE'
+      {method:'DELETE',
+      headers:{Authorization:`Bearer ${token}`},
     })
     .then(response=>{
-      console.log(response)
       if (response.ok) {
         dispatch(fetchOrdersThunk())
         setOpen(true);

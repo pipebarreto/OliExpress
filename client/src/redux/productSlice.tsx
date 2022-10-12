@@ -12,6 +12,9 @@ const initialState: productsState = {
   isLoading: false,
 }
 
+const token = localStorage.getItem('token');
+
+
 export const fetchProductsThunk = createAsyncThunk(
   'products/fetch',
   async () => {

@@ -11,7 +11,7 @@ import checkAuth from '../middlewares/checkAuth'
 const router = express.Router()
 
 // Every path we define here will get /api/v1/movies prefix
-router.get('/', checkAuth, findAll)
+router.get('/', findAll)
 router.post('/', createOrder)
 router.delete('/:orderId', deleteOrder)
 router.put('/:orderId', updateOrder)

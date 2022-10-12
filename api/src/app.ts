@@ -13,6 +13,7 @@ import { loginWithGoogle } from './passport/google'
 import { JWT_SECRET } from './util/secrets'
 import jwt from 'jsonwebtoken'
 import User from './models/User'
+import checkAuth from './middlewares/checkAuth'
 
 dotenv.config({ path: '.env' })
 const app = express()
@@ -51,7 +52,7 @@ passport.use(loginWithGoogle())
 // Set up routers
 
 app.use('/api/v1/products', productRouter)
-app.use('/api/v1/orders', orderRouter)
+app.use('/api/v1/orders', checkAuth, orderRouter)
 
 app.post(
   '/api/v1/login',
