@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material"
+import { Button, Grid } from "@mui/material"
 import { NavBar } from "components/NavBar"
 import ProductCard from "components/ProductCard"
 import { useEffect, useState } from "react"
@@ -9,6 +9,7 @@ import { Product } from "types"
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import axios from "axios"
 import CreateProduct from "components/CreateProduct"
+import jwtDecode from "jwt-decode"
 
 const Home = () => {
 
@@ -35,13 +36,13 @@ const Home = () => {
         }
       )
       const token =res.data.token;
+      const authUser = jwtDecode(token);
+      localStorage.setItem('authUser', JSON.stringify(authUser))
       localStorage.setItem('token', token)
-
-      console.log("token" + token);
+      window.location.reload();
     }
   }
 
-  console.log("token" +token);
 
     const addProduct =(newProduct: Product)=>{
       fetch('http://localhost:4000/api/v1/products/',
@@ -75,6 +76,10 @@ const Home = () => {
     console.log('Login Failed')
   }}
 />
+
+<Button onClick={() =>{localStorage.removeItem('token');
+                        localStorage.removeItem('authUser');
+                      window.location.reload();}}>Log Out</Button>
 
 
   <Grid container 

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { Order } from '../types'
+import { authUser, Order } from '../types'
 
 export interface productsState {
   items: Order[],
@@ -16,20 +16,22 @@ const initialState: productsState = {
 
 const token = localStorage.getItem('token');
 
+
+
 console.log(token);
 
 
 export const fetchOrdersThunk = createAsyncThunk(
   'orders/fetch',
   async () => {
-    const URL = `http://localhost:4000/api/v1/orders`
+    const URL = `http://localhost:4000/api/v1/users/634711254d23e6f8e9cbde68`
     const response = await axios.get(URL,{
       headers:{
         Authorization:`Bearer ${token}`
       },
     })
     return {
-      data: response.data,
+      data: response.data.orders,
       status: response.status,
     }
   }

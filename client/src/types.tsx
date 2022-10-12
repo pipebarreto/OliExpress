@@ -15,5 +15,11 @@ export type Order ={
     _id: string,
     total_price: number
 }
+
+export type authUser ={
+    userId: string
+    admin: boolean, 
+    id:string
+}
   
     //  enum: ['Fashion', 'Technology', 'Toys', 'Furniture', 'Other'],

@@ -4,9 +4,11 @@ import { OrderDocument } from './Order'
 export type UserDocument = Document & {
   name: string
   email: string
+  picture: string
   password: string
+  adress: string
   isAdmin: boolean
-  order: OrderDocument
+  orders: OrderDocument
 }
 
 const serviceSchema = new mongoose.Schema({
@@ -17,6 +19,9 @@ const serviceSchema = new mongoose.Schema({
   name: {
     type: String,
     index: true,
+  },
+  password: {
+    type: String,
   },
   picture: {
     type: String,

@@ -10,10 +10,10 @@ const findAll = async (): Promise<OrderDocument[]> => {
 }
 
 const findById = async (orderId: string): Promise<OrderDocument> => {
-  const foundOrder = await Order.findById(orderId)
+  const foundOrder = await Order.findById(orderId).populate('product')
 
   if (!foundOrder) {
-    throw new NotFoundError(`Products ${orderId} not found`)
+    throw new NotFoundError(`Order ${orderId} not found`)
   }
 
   return foundOrder
@@ -22,7 +22,7 @@ const findById = async (orderId: string): Promise<OrderDocument> => {
 const deleteOrder = async (orderId: string): Promise<OrderDocument | null> => {
   const foundOrder = Order.findByIdAndDelete(orderId)
   if (!foundOrder) {
-    throw new NotFoundError(`Products ${orderId} not found`)
+    throw new NotFoundError(`Order ${orderId} not found`)
   }
   return foundOrder
 }
@@ -35,7 +35,7 @@ const updateOrder = async (
     new: true,
   })
   if (!foundOrder) {
-    throw new NotFoundError(`Product ${foundOrder} not found`)
+    throw new NotFoundError(`Order ${foundOrder} not found`)
   }
 
   return foundOrder
