@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { FormControl, InputLabel } from '@mui/material';
 
 
+
 export default function EditProduct({params, editProduct}:any) {
   const [open, setOpen] = React.useState(false);
   params=params.product;

@@ -15,16 +15,13 @@ const initialState: productsState = {
 }
 
 const token = localStorage.getItem('token');
-
-
-
-console.log(token);
-
+const userInfo:any = localStorage.getItem('authUser');
+const user=JSON.parse(userInfo);
 
 export const fetchOrdersThunk = createAsyncThunk(
   'orders/fetch',
   async () => {
-    const URL = `http://localhost:4000/api/v1/users/634711254d23e6f8e9cbde68`
+    const URL = `http://localhost:4000/api/v1/users/${user.id}`
     const response = await axios.get(URL,{
       headers:{
         Authorization:`Bearer ${token}`
@@ -36,6 +33,8 @@ export const fetchOrdersThunk = createAsyncThunk(
     }
   }
 )
+
+
 
 export const orders = createSlice({
   name: 'orders',

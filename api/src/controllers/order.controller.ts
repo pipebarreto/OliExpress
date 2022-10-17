@@ -12,11 +12,14 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
-    const { product, quantity } = req.body
+    const { product, quantity, ownerId } = req.body
     const order = new Order({
       product,
       quantity,
+      ownerId,
     })
+
+    console.log(order)
 
     const productOrder = await productService.findById(product)
     order.total_price = quantity * productOrder.price
@@ -54,7 +57,7 @@ export const deleteOrder = async (
   next: NextFunction
 ) => {
   try {
-    await orderService.deleteOrder(req.params.orderId)
+    await orderService.deleteOrder(req.params.orderId, req.body)
     res.status(204).end()
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {

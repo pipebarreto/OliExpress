@@ -48,7 +48,7 @@ export default function CreateProduct({ newProduct}:any) {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}
+      <Button sx={{fontSize: 20, paddingBottom:'10px'}} onClick={handleClickOpen}
           endIcon ={<AddIcon />}
           >Create Product
       </Button>

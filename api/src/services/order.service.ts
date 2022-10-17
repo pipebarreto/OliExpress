@@ -1,8 +1,17 @@
 import Order, { OrderDocument } from '../models/Order'
 import { NotFoundError } from '../helpers/apiError'
+import { UserDocument } from '../models/User'
+import User from '../models/User'
+import userService from './user.service'
 
-const create = async (order: OrderDocument): Promise<OrderDocument> => {
-  return order.save()
+const create = async (order: OrderDocument): Promise<UserDocument | any> => {
+  order.save().then((orderDocument) => {
+    return User.findOneAndUpdate(
+      { _id: orderDocument.ownerId },
+      { $push: { orders: orderDocument._id } },
+      { new: true }
+    )
+  })
 }
 
 const findAll = async (): Promise<OrderDocument[]> => {
@@ -19,10 +28,18 @@ const findById = async (orderId: string): Promise<OrderDocument> => {
   return foundOrder
 }
 
-const deleteOrder = async (orderId: string): Promise<OrderDocument | null> => {
+const deleteOrder = async (
+  orderId: string,
+  userId: any
+): Promise<OrderDocument | null> => {
   const foundOrder = Order.findByIdAndDelete(orderId)
   if (!foundOrder) {
     throw new NotFoundError(`Order ${orderId} not found`)
+  } else {
+    User.findOneAndUpdate(
+      { _id: userId.userId },
+      { $pull: { orders: orderId } }
+    )
   }
   return foundOrder
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import { useSelector, useDispatch } from 'react-redux'
-import { Box, Typography, IconButton } from '@mui/material'
+import { Box, Typography, IconButton, ListItemButton, ListItemAvatar, Avatar, ListItemText } from '@mui/material'
 import { AppDispatch, RootState } from '../redux/store'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -12,6 +12,9 @@ import { useEffect, useState } from 'react'
 import { fetchOrdersThunk } from 'redux/orderSlice'
 import { Order } from 'types'
 import { Snackbar } from '@mui/material';
+import axios from 'axios'
+import Checkbox from '@mui/material/Checkbox';
+import ListItem from '@mui/material/ListItem';
 
 
 type Anchor = 'right'
@@ -20,6 +23,9 @@ export default function () {
     const dispatch = useDispatch<AppDispatch>()
     const token = localStorage.getItem('token');
 
+    const userInfo:any = localStorage.getItem('authUser');
+    const user=JSON.parse(userInfo);
+
   const { orders } = useSelector((state: RootState) => state)
   const orderList = orders.items;
 
@@ -27,18 +33,22 @@ export default function () {
  
   const total = (orderList.reduce((a,v) =>  a = a + v.total_price , 0 ));
 
-
     useEffect(() => {
         dispatch(fetchOrdersThunk())
         }, [dispatch])
   
   const deleteFromCart =(orderId: String)=>{
-    fetch(`http://localhost:4000/api/v1/orders/${orderId}`,
-      {method:'DELETE',
-      headers:{Authorization:`Bearer ${token}`},
-    })
+    const body={
+      userId: user.id,
+    }
+      axios.delete(`http://localhost:4000/api/v1/orders/${orderId}`,{
+    headers:{
+      Authorization:`Bearer ${token}`
+    },
+    data: body,
+  })  
     .then(response=>{
-      if (response.ok) {
+      if (response.status==204) {
         dispatch(fetchOrdersThunk())
         setOpen(true);
         } 
@@ -48,6 +58,8 @@ export default function () {
     })
     .catch(err => console.error(err))
   }
+
+
 
   const [state, setState] = React.useState({
     right: false})
@@ -83,13 +95,28 @@ export default function () {
 
           return (
             <div style={{ padding: '2px' }}>
-              <Typography variant="h6" style={{ paddingInline: '10px', paddingBlock: '5px' }}>
-              {item.product.name}:  {item.quantity}pcs <br/> Total: € {item.total_price}
-              </Typography>
-
-              <IconButton size="small" color="error"  onClick={() => deleteFromCart(item._id)}> <DeleteIcon />
-              Delete from Cart
+               <ListItem
+            key={index}
+            secondaryAction={
+              <IconButton size="small" color="error" 
+              onClick={() => deleteFromCart(item._id)}>
+                <DeleteIcon />
               </IconButton>
+            }
+            disablePadding
+          >
+            <ListItemButton>
+              <ListItemAvatar>
+                <Avatar
+                  alt={item.product._id}
+                  src={item.product.image}
+                />
+              </ListItemAvatar>
+              <ListItemText  primary={`${item.product.name}: ${item.quantity}pcs`}
+                              secondary={`Total: €${item.total_price}`} 
+                              />
+            </ListItemButton>
+          </ListItem>
             </div>
           )
         })}
@@ -118,6 +145,7 @@ export default function () {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
+          
           <Drawer
             anchor={anchor}
             open={state[anchor]}

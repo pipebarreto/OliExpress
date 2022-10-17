@@ -6,96 +6,28 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchProductsThunk } from "redux/productSlice"
 import { AppDispatch, RootState } from "redux/store"
 import { Product } from "types"
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import axios from "axios"
-import CreateProduct from "components/CreateProduct"
-import jwtDecode from "jwt-decode"
+import { Content } from "components/Content"
+import { SideBar } from "components/SideBar"
+import { fetchUserThunk } from "redux/userSlice"
 
 const Home = () => {
 
   const dispatch = useDispatch<AppDispatch>()
-  const token = localStorage.getItem('token');
-  
-  const { products } = useSelector((state: RootState) => state)
-  const productList = products.items
+
 
   useEffect(() => {
-    dispatch(fetchProductsThunk())
-  }, [dispatch])
+      dispatch(fetchUserThunk())
+    }, [dispatch])
 
-  const handleGoogleOnSuccess = async (response: CredentialResponse) =>{
-    console.log('response:', response)
-    if (response.credential){
-      const res =await axios.post(
-        'http://localhost:4000/api/v1/login',
-        {},
-        {
-          headers:{
-            id_token: response.credential,
-          }
-        }
-      )
-      const token =res.data.token;
-      const authUser = jwtDecode(token);
-      localStorage.setItem('authUser', JSON.stringify(authUser))
-      localStorage.setItem('token', token)
-      window.location.reload();
-    }
-  }
-
-
-    const addProduct =(newProduct: Product)=>{
-      fetch('http://localhost:4000/api/v1/products/',
-        {method:'POST',
-        headers:{'Content-Type': 'application/json',
-                  Authorization:`Bearer ${token}`},
-        body: JSON.stringify(newProduct)
-      })
-      .then(response=>{
-        if (response.ok) {
-          dispatch(fetchProductsThunk())
-          } 
-        else{
-         alert('Ups! Something went wrong');
-        }
-      })
-      .catch(err => console.error(err))
-    }
-
+  
 
   return (
   <>
 
   <NavBar />
-    <br/>
-  <CreateProduct newProduct={addProduct}/>
 
-  <GoogleLogin
-  onSuccess={handleGoogleOnSuccess} 
-  onError={() => {
-    console.log('Login Failed')
-  }}
-/>
+  <Content />
 
-<Button onClick={() =>{localStorage.removeItem('token');
-                        localStorage.removeItem('authUser');
-                      window.location.reload();}}>Log Out</Button>
-
-
-  <Grid container 
-        direction="row"
-        alignItems="center"
-        paddingLeft={20}
-        paddingRight={20}
-        >
-
-  {productList.map((productList: Product, index: number)=>(
-
-  <ProductCard  key={index} product={productList}/>
-
-  ))} 
-
-  </Grid>
   </>
 
   )

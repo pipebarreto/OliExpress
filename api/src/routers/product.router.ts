@@ -1,19 +1,21 @@
 import express from 'express'
+import checkAuth from '../middlewares/checkAuth'
 import {
   createProduct,
   deleteProduct,
   findAll,
   findById,
+  findByProductName,
   updateProduct,
 } from '../controllers/product.controller'
 
 const router = express.Router()
 
-// Every path we define here will get /api/v1/movies prefix
 router.get('/', findAll)
-router.post('/', createProduct)
-router.delete('/:productId', deleteProduct)
-router.put('/:productId', updateProduct)
+router.post('/', checkAuth, createProduct)
+router.delete('/:productId', checkAuth, deleteProduct)
+router.put('/:productId', checkAuth, updateProduct)
 router.get('/:productId', findById)
+router.get('/name/:productName', findByProductName)
 
 export default router

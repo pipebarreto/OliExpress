@@ -15,6 +15,8 @@ import jwt from 'jsonwebtoken'
 import User from './models/User'
 import checkAuth from './middlewares/checkAuth'
 import userRouter from './routers/user.router'
+import bcrypt from 'bcrypt'
+import loginRouter from './routers/login.router'
 
 dotenv.config({ path: '.env' })
 const app = express()
@@ -55,24 +57,8 @@ passport.use(loginWithGoogle())
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/orders', checkAuth, orderRouter)
 app.use('/api/v1/users', checkAuth, userRouter)
+app.use('/api/v1/', loginRouter)
 
-app.post(
-  '/api/v1/login',
-  passport.authenticate('google-id-token', { session: false }),
-  (req, res) => {
-    const user: any = req.user
-
-    const token = jwt.sign(
-      { userId: user.email, admin: user.isAdmin, id: user._id },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    )
-
-    res.json({ token })
-  }
-)
-
-// Custom API error handler
 app.use(apiErrorHandler)
 
 export default app

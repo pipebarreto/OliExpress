@@ -2,6 +2,7 @@ import mongoose, { Document } from 'mongoose'
 import { OrderDocument } from './Order'
 
 export type UserDocument = Document & {
+  _id: string
   name: string
   email: string
   picture: string

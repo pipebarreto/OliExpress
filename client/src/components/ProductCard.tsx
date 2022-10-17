@@ -22,18 +22,21 @@ export default function ProductCard (props:any){
 
   const dispatch = useDispatch<AppDispatch>()
   const token = localStorage.getItem('token');
+  
+  const userInfo:any = localStorage.getItem('authUser');
+  const user=JSON.parse(userInfo);
 
   const [quantity, setQuantity]= useState(1);
   const invalid = quantity <= 1;
 
   const [open, setOpen]= useState(false);
 
-  const addToCart =(productId: String, quantity: number)=>{
+  const addToCart =(productId: String, quantity: number, ownerId: string)=>{
     const body={
       product: productId,
       quantity: quantity,
+      ownerId: ownerId,
     }
-
 
     fetch('http://localhost:4000/api/v1/orders',
       {method:'POST',
@@ -43,18 +46,19 @@ export default function ProductCard (props:any){
     })
     .then(response=>{
       if (response.ok) {
-        dispatch(fetchOrdersThunk());
         setOpen(true);
+        dispatch(fetchOrdersThunk());
         } 
       else{
        alert('Something went wrong');
       }
     })
     .catch(err => console.error(err))
+    
+    .finally(() =>{dispatch(fetchOrdersThunk())})
   }
 
   const editProduct =(updatedProduct:Product)=>{
-    console.log(props.product._id)
     fetch(`http://localhost:4000/api/v1/products/${props.product._id}`,
       {method:'PUT',
       headers:{'Content-Type': 'application/json',
@@ -92,7 +96,7 @@ export default function ProductCard (props:any){
   return(   
   <div style ={{margin:20}}>
 
-    <Card variant="elevation" sx={{ width: 250, height:'auto', padding:5}}>
+    <Card variant="elevation" elevation={20} sx={{ width: 250, height:'auto', padding:5}}>
     <CardActionArea>
 
     <CardMedia
@@ -116,8 +120,11 @@ export default function ProductCard (props:any){
 
       </CardContent>
       </CardActionArea>
+
+      {user?
       <CardActions >
 
+    
       <Grid container direction="column"
         alignItems="center"  justifyContent="end">
         <Grid container direction="row" alignItems="center" justifyContent="center" padding={1}>
@@ -128,7 +135,7 @@ export default function ProductCard (props:any){
           <Button onClick={() => {setQuantity(quantity+1)}}>+</Button>   
         </Grid>
 
-      <IconButton variant="outlined" onClick={() => addToCart(props.product._id, quantity)}>
+      <IconButton variant="outlined" onClick={() => addToCart(props.product._id, quantity, user.id)}>
       <ShoppingCart />
         Add to cart
       </IconButton> 
@@ -143,6 +150,11 @@ export default function ProductCard (props:any){
       
       </Grid>
       </CardActions>
+
+      :<IconButton variant="outlined" disabled> <ShoppingCart />
+        Sign in to start shopping
+      </IconButton>}
+      
     </Card>
 
   <Snackbar

@@ -14,7 +14,16 @@ const findById = async (productId: string): Promise<ProductDocument> => {
   if (!foundProduct) {
     throw new NotFoundError(`Products ${productId} not found`)
   }
+  return foundProduct
+}
 
+const findByProductName = async (
+  productName: string
+): Promise<ProductDocument[]> => {
+  const foundProduct = await Product.find({ name: productName })
+  if (!foundProduct) {
+    throw new NotFoundError(`Products ${productName} not found`)
+  }
   return foundProduct
 }
 
@@ -48,4 +57,5 @@ export default {
   deleteProduct,
   updateProduct,
   findById,
+  findByProductName,
 }
