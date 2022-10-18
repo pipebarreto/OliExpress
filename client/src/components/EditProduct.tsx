@@ -107,11 +107,12 @@ export default function EditProduct({params, editProduct}:any) {
                     fullWidth
                     label="Price"
                     variant="standard">
+              <MenuItem value={'Beauty'}>Beauty</MenuItem>
+            <MenuItem value={'Fashion'}>Fashion</MenuItem>
+            <MenuItem value={'Furniture'}>Furniture</MenuItem>
             <MenuItem value={'Other'}>Other</MenuItem>
-          <MenuItem value={'Technology'}>Technology</MenuItem>
-          <MenuItem value={'Fashion'}>Fashion</MenuItem>
-          <MenuItem value={'Toys'}>Toys</MenuItem>
-          <MenuItem value={'Furniture'}>Furniture</MenuItem>
+            <MenuItem value={'Toys'}>Toys</MenuItem>
+            <MenuItem value={'Technology'}>Technology</MenuItem>
         </Select>
         </FormControl>
 

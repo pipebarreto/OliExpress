@@ -22,7 +22,7 @@ const initialState: userState = {
   name:'',
   address:'',
   isLoading: false,
-  isAdmin: false
+  isAdmin: false,
 }
 
 
@@ -39,13 +39,13 @@ export const fetchUserThunk = createAsyncThunk(
         Authorization:`Bearer ${token}`
       },
     })
-    console.log(response)
     return {
       data: response.data,
       status: response.status,
     }
   }
 )
+
 
 
 
@@ -67,8 +67,8 @@ export const user = createSlice({
       state.orders = action.payload.data.orders
       state.email = action.payload.data.email
       state.address = action.payload.data.address
-      state.isLoading = false
       state.isAdmin = action.payload.data.isAdmin
+      state.isLoading = false
     })
     
   },
