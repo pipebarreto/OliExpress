@@ -86,6 +86,7 @@ export default function CreateProduct({ newProduct}:any) {
           <TextField
             margin="dense"
             name='price'
+            type="number"
             value={product.price}
             onChange={inputChanged}
             label="Price"
@@ -100,13 +101,15 @@ export default function CreateProduct({ newProduct}:any) {
                     value={product.category}
                     onChange={inputChanged}
                     fullWidth
-                    label="Price"
+                    label="Category"
                     variant="standard">
+
+            <MenuItem value={'Beauty'}>Beauty</MenuItem>
+            <MenuItem value={'Fashion'}>Fashion</MenuItem>
             <MenuItem value={'Other'}>Other</MenuItem>
-          <MenuItem value={'Technology'}>Technology</MenuItem>
-          <MenuItem value={'Fashion'}>Fashion</MenuItem>
-          <MenuItem value={'Toys'}>Toys</MenuItem>
-          <MenuItem value={'Furniture'}>Furniture</MenuItem>
+            <MenuItem value={'Furniture'}>Furniture</MenuItem>
+            <MenuItem value={'Toys'}>Toys</MenuItem>
+            <MenuItem value={'Technology'}>Technology</MenuItem>
         </Select>
         </FormControl>
 

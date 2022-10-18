@@ -3,16 +3,26 @@ import axios from 'axios'
 import { authUser, Order, User } from '../types'
 
 export interface userState {
-  user: User,
-  _id:'',
-  
-  isLoading: boolean
+  name:string,
+  _id:string,
+  picture:string
+  email:string,
+  orders: Array<Order>
+  isLoading: boolean,
+  address:string
+  isAdmin:boolean
+
 }
 
 const initialState: userState = {
-  user: {email:'', _id:'', picture:'', name:''},
   _id:'',
+  picture:'',
+  email:'',
+  orders:[],
+  name:'',
+  address:'',
   isLoading: false,
+  isAdmin: false
 }
 
 
@@ -51,8 +61,14 @@ export const user = createSlice({
     })
 
     builder.addCase(fetchUserThunk.fulfilled, (state, action) => {
-      state.user = action.payload.data
+      state.name = action.payload.data.name
+      state._id = action.payload.data._id
+      state.picture = action.payload.data.picture
+      state.orders = action.payload.data.orders
+      state.email = action.payload.data.email
+      state.address = action.payload.data.address
       state.isLoading = false
+      state.isAdmin = action.payload.data.isAdmin
     })
     
   },

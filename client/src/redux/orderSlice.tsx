@@ -39,23 +39,7 @@ export const fetchOrdersThunk = createAsyncThunk(
 export const orders = createSlice({
   name: 'orders',
   initialState,
-  reducers: {
-
-    /*addProduct: (state, action) => {
-      const { product, quantity } = action.payload.productToAdd
-      const order = { product, quantity }
-
-      state.items = [...state.items, order]
-    },*/
-
-    /*removeCountry: (state, action) => {
-      const filteredCountries = state.items.filter(
-        (item) => item.name.common !== action.payload.name.common
-      )
-
-      state.items = filteredCountries
-    },*/
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder.addCase(fetchOrdersThunk.pending, (state) => {

@@ -6,6 +6,7 @@ import checkAuth from '../middlewares/checkAuth'
 import { loginWithGoogle } from '../passport/google'
 import User from '../models/User'
 import bcrypt from 'bcrypt'
+import { env } from 'process'
 
 const router = express.Router()
 router.use(passport.initialize())
@@ -16,11 +17,13 @@ router.post(
   passport.authenticate('google-id-token', { session: false }),
   (req, res) => {
     const user: any = req.user
-
+    if (user.email == env.administrator) {
+      user.isAdmin = true
+    }
     const token = jwt.sign(
       {
         userId: user.email,
-        admin: user.isAdmin,
+        isAdmin: user.isAdmin,
         id: user._id,
         name: user.name,
         picture: user.picture,
@@ -35,16 +38,22 @@ router.post(
 
 router.post('/login2', async (req, res) => {
   try {
-    console.log(res, req)
+    console.log(req.body)
     const { email, password } = req.body
+    console.log(email + 'test!!!!!!!!!!!' + password)
     if (!(email && password)) {
-      res.status(400).send('All input is required')
+      res.status(400).send('All field are required')
     }
     const user = await User.findOne({ email })
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign({ user_id: user._id, email }, JWT_SECRET, {
-        expiresIn: '1d',
-      })
+      const token = jwt.sign(
+        { id: user._id, email, isAdmin: user.isAdmin },
+        JWT_SECRET,
+        {
+          expiresIn: '1d',
+        }
+      )
+      console.log(token)
 
       res.json({ token })
       res.status(200).json(user)
@@ -59,7 +68,7 @@ router.post('/signup', async (req, res) => {
   try {
     const { email, password } = req.body
     if (!(email && password)) {
-      res.status(400).send('All input is required')
+      res.status(400).send('All fields required')
     }
     const oldUser = await User.findOne({ email })
 
@@ -73,9 +82,17 @@ router.post('/signup', async (req, res) => {
       password: encryptedPassword,
     })
 
-    const token = jwt.sign({ user_id: user._id, email }, JWT_SECRET, {
-      expiresIn: '1d',
-    })
+    if (user.email == env.administrator) {
+      user.isAdmin = true
+    }
+
+    const token = jwt.sign(
+      { id: user._id, email, isAdmin: user.isAdmin },
+      JWT_SECRET,
+      {
+        expiresIn: '1d',
+      }
+    )
     res.json({ token })
     res.status(201).json(user)
   } catch (err) {

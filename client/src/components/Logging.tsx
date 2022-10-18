@@ -13,8 +13,9 @@ import { FormControl, InputLabel } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
+import LoginIcon from '@mui/icons-material/Login';
 
-export default function Logging({ loggingUser}:any) {
+export default function Logging({ loggingIn}:any) {
   const [open, setOpen] = React.useState(false);
   const[user, setUser]=React.useState({
       email:'',
@@ -30,7 +31,7 @@ export default function Logging({ loggingUser}:any) {
   };
 
   const handleSave= () => {
-    loggingUser(user);
+    loggingIn(user);
     setUser({
         email:'',
         password:'',
@@ -38,6 +39,10 @@ export default function Logging({ loggingUser}:any) {
 
     setOpen(false);
   };
+
+  const inputChanged=(event: any)=>{
+      setUser({...user, [event.target.name]: event.target.value});
+  }
 
   const handleGoogleOnSuccess = async (response: CredentialResponse) =>{
     console.log('response:', response)
@@ -59,18 +64,13 @@ export default function Logging({ loggingUser}:any) {
     }
   }
 
-  const inputChanged=(event: any)=>{
-      setUser({...user, [event.target.name]: event.target.value});
-  }
-
   return (
-    <div>
-      <Button sx={{fontSize: 20, paddingBottom:'10px'}} onClick={handleClickOpen}
-          endIcon ={<AddIcon />}
+    <div style={{paddingRight:20}}>
+      <Button variant="outlined" color='inherit' sx={{fontSize: 20}} onClick={handleClickOpen}
+          endIcon ={<LoginIcon />}
           >Log In
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Log In</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
@@ -82,9 +82,9 @@ export default function Logging({ loggingUser}:any) {
             variant="standard"
           />
           <TextField
-            multiline={true}
             margin="dense"
             name='password'
+            type="password"
             value={user.password}
             onChange={inputChanged}
             label="password"
@@ -92,19 +92,23 @@ export default function Logging({ loggingUser}:any) {
             variant="standard"
           />
 
-<GoogleLogin
+          <div style={{paddingTop:'25px'}}>
+            <Button fullWidth variant="contained" onClick={handleSave}endIcon ={<LoginIcon />}>
+             Log in 
+            </Button> 
+          </div>
+
+          <div style={{display: 'flex', justifyContent: 'center', paddingTop:'25px'}}>
+          <GoogleLogin
             onSuccess={handleGoogleOnSuccess} 
             onError={() => {
             console.log('Login Failed')
             }}
           />
+          </div>
          
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave}>Save</Button>
-        </DialogActions>
-
+        <DialogActions/>
         
       </Dialog>
     </div>

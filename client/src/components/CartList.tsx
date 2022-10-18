@@ -9,12 +9,12 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Divider from '@mui/material/Divider'
 import Badge from '@mui/material/Badge'
 import { useEffect, useState } from 'react'
-import { fetchOrdersThunk } from 'redux/orderSlice'
 import { Order } from 'types'
 import { Snackbar } from '@mui/material';
 import axios from 'axios'
 import Checkbox from '@mui/material/Checkbox';
 import ListItem from '@mui/material/ListItem';
+import { fetchUserThunk } from 'redux/userSlice'
 
 
 type Anchor = 'right'
@@ -23,23 +23,21 @@ export default function () {
     const dispatch = useDispatch<AppDispatch>()
     const token = localStorage.getItem('token');
 
-    const userInfo:any = localStorage.getItem('authUser');
-    const user=JSON.parse(userInfo);
 
-  const { orders } = useSelector((state: RootState) => state)
-  const orderList = orders.items;
+  const { user } = useSelector((state: RootState) => state)
+  const orderList = user.orders;
 
   const [open, setOpen]= useState(false);
  
   const total = (orderList.reduce((a,v) =>  a = a + v.total_price , 0 ));
 
     useEffect(() => {
-        dispatch(fetchOrdersThunk())
+        dispatch(fetchUserThunk())
         }, [dispatch])
   
   const deleteFromCart =(orderId: String)=>{
     const body={
-      userId: user.id,
+      userId: user._id,
     }
       axios.delete(`http://localhost:4000/api/v1/orders/${orderId}`,{
     headers:{
@@ -49,7 +47,7 @@ export default function () {
   })  
     .then(response=>{
       if (response.status==204) {
-        dispatch(fetchOrdersThunk())
+        dispatch(fetchUserThunk())
         setOpen(true);
         } 
       else{
@@ -139,10 +137,10 @@ export default function () {
     <div>
       {(['right'] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)}>
-            <Badge badgeContent={orderList.length} color="secondary">
+          <IconButton style={{color: '#c1eff4'}} onClick={toggleDrawer(anchor, true)}>
+            <Badge color="warning" badgeContent={orderList.length}>
               Cart
-              <ShoppingCartIcon />
+              <ShoppingCartIcon/>
             </Badge>
           </IconButton>
           

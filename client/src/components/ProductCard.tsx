@@ -8,7 +8,7 @@ import { Button, CardActionArea, CardMedia, Grid } from "@mui/material";
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import IconButton from '@mui/material/Button'
 import axios from "axios";
-import { fetchOrdersThunk } from "redux/orderSlice";
+
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "redux/store";
 import { Snackbar } from '@mui/material';
@@ -16,6 +16,7 @@ import { fetchProductsThunk } from "redux/productSlice";
 import EditProduct from "./EditProduct";
 import { Product } from "types";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { fetchUserThunk } from "redux/userSlice";
 
 
 export default function ProductCard (props:any){
@@ -47,7 +48,7 @@ export default function ProductCard (props:any){
     .then(response=>{
       if (response.ok) {
         setOpen(true);
-        dispatch(fetchOrdersThunk());
+        dispatch(fetchUserThunk());
         } 
       else{
        alert('Something went wrong');
@@ -55,7 +56,7 @@ export default function ProductCard (props:any){
     })
     .catch(err => console.error(err))
     
-    .finally(() =>{dispatch(fetchOrdersThunk())})
+    .finally(() =>{dispatch(fetchUserThunk())})
   }
 
   const editProduct =(updatedProduct:Product)=>{
@@ -92,16 +93,17 @@ export default function ProductCard (props:any){
     }
   }
 
+  console.log(user)
 
   return(   
-  <div style ={{margin:20}}>
+  <div style ={{margin:10}}>
 
-    <Card variant="elevation" elevation={20} sx={{ width: 250, height:'auto', padding:5}}>
+    <Card variant="elevation" elevation={5} sx={{ width: 250, height:500, padding:0}}>
     <CardActionArea>
 
     <CardMedia
         component="img"
-        height="140"
+        height="200"
         image={props.product.image}
         alt="free ware"
       />      
@@ -114,7 +116,7 @@ export default function ProductCard (props:any){
           {props.product.description}
         </Typography>
 
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant='body1' color="text.secondary">
           <br/>€{props.product.price}
         </Typography>
 
@@ -140,14 +142,15 @@ export default function ProductCard (props:any){
         Add to cart
       </IconButton> 
 
+       {user?.isAdmin && (
       <Grid container direction="row" alignItems="center" justifyContent="center" padding={1}>
       <EditProduct params={props} editProduct={editProduct} />
       
-      <IconButton color="error" onClick ={() => deleteProduct ()}><DeleteIcon />
+      <IconButton color='warning' onClick ={() => deleteProduct ()}><DeleteIcon />
       </IconButton> 
         </Grid>
-
-      
+      )}
+       
       </Grid>
       </CardActions>
 

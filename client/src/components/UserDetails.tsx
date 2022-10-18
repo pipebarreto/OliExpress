@@ -5,20 +5,22 @@ import { Box, Typography, IconButton, Avatar, Button, Grid } from '@mui/material
 import MenuSharpIcon from '@mui/icons-material/MenuSharp'
 import Divider from '@mui/material/Divider'
 import { fetchProductsThunk } from 'redux/productSlice'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from 'redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'redux/store'
 import CreateProduct from './CreateProduct'
 import { Product } from 'types'
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditUser from './EditUser'
+import { fetchUserThunk } from 'redux/userSlice'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 type Anchor = 'left'
 
 const userInfo:any = localStorage.getItem('authUser');
-const user=JSON.parse(userInfo);
+
 
 export default function UserDetails() {
   
@@ -28,6 +30,10 @@ export default function UserDetails() {
   const [state, setState] = React.useState({
     left: false,
   })
+
+  const { user } = useSelector((state: RootState) => state)
+  console.log(user)
+  
 
   const addProduct =(newProduct: Product)=>{
     fetch('http://localhost:4000/api/v1/products/',
@@ -48,7 +54,7 @@ export default function UserDetails() {
   }
 
   const editUser =(updatedUser:any)=>{
-    fetch(`http://localhost:4000/api/v1/users/${user.id}`,
+    fetch(`http://localhost:4000/api/v1/users/${user._id}`,
       {method:'PUT',
       headers:{'Content-Type': 'application/json',
       Authorization:`Bearer ${token}`},
@@ -56,7 +62,7 @@ export default function UserDetails() {
     })
     .then(response=>{
       if (response.ok) {
-        //pending
+        dispatch(fetchUserThunk())
         } 
       else{
        alert('Something went wrong');}
@@ -97,14 +103,15 @@ export default function UserDetails() {
         {user.name}
       </Typography>
       <Typography variant="h6" style={{ paddingBottom:'5px' }}>
-        {user.userId}<br/>
+        {user.email}<br/>
       </Typography>
       
       <EditUser params={user} editUser={editUser}/>
 
       <Divider />
-
+      {user?.isAdmin && (
       <CreateProduct newProduct={addProduct}/>
+      )}
       
       <Divider />
 
@@ -124,8 +131,9 @@ export default function UserDetails() {
     <div>
       {(['left'] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton onClick={toggleDrawer(anchor, true)}>
-            <MenuSharpIcon />
+          <IconButton style={{color:'#c1eff4'}} onClick={toggleDrawer(anchor, true)}>
+            <AccountCircleIcon fontSize='large'/>
+            Profile 
           </IconButton>
           <Drawer
           variant="persistent"

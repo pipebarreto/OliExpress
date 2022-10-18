@@ -91,6 +91,7 @@ export default function EditProduct({params, editProduct}:any) {
           <TextField
             margin="dense"
             name='price'
+            type="number"
             value={product.price}
             onChange={inputChanged}
             label="Price"

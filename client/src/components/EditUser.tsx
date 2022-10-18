@@ -20,13 +20,15 @@ export default function EditUser({params, editUser}:any) {
 
   const[user, setUser]=React.useState({
       name:params.name,
-      address:params.address
+      address:params.address,
+      picture:params.picture
   });
 
   const handleClickOpen = () => {
     setUser({
         name:params.name,
-        address:params.address
+        address:params.address,
+        picture:params.picture
     })
     setOpen(true);
   };
@@ -39,7 +41,8 @@ export default function EditUser({params, editUser}:any) {
     editUser(user);
     setUser({
         name:'',
-        address:''
+        address:'',
+        picture:''
     })
 
     setOpen(false);
@@ -65,6 +68,15 @@ export default function EditUser({params, editUser}:any) {
             value={user.name}
             onChange={inputChanged}
             label="Name"
+            fullWidth
+            variant="standard"
+          />
+           <TextField
+            margin="dense"
+            name='picture'
+            value={user.picture}
+            onChange={inputChanged}
+            label="Picture"
             fullWidth
             variant="standard"
           />

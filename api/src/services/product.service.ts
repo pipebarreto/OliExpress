@@ -6,7 +6,7 @@ const create = async (product: ProductDocument): Promise<ProductDocument> => {
 }
 
 const findAll = async (): Promise<ProductDocument[]> => {
-  return Product.find().sort({ name: 1 })
+  return Product.find()
 }
 
 const findById = async (productId: string): Promise<ProductDocument> => {
