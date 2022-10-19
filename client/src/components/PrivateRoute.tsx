@@ -1,21 +1,16 @@
-import { Navigate } from 'react-router-dom';
+import {Navigate, Outlet,} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 
 
-/*export { PrivateRoute };
-
-function PrivateRoute({ children }:{children: React.ReactNode}) {
-    const token
-    const authUser = jwtDecode(token);
-    
-    if (!authUser.isAdmin) {
-        // not logged in so redirect to login page with the return url
-        return (
-        <div>
-        <h1> No sir!! </h1>
-        </div>)
+export const ProtectedRoute = ({
+    children,
+    redirectPath = '/home',
+    isAllowed,
+  }:any) => {
+    if (!isAllowed) {
+      return <Navigate to={redirectPath} replace />;
     }
-    
-    return children;
-}*/
+  
+    return children ? children : <Outlet />;
+  };

@@ -1,9 +1,9 @@
-import { NavBar } from "components/NavBar"
+import { NavBar } from "components/NavBar/NavBar"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { fetchProductsThunk } from "redux/productSlice"
 import { AppDispatch } from "redux/store"
-import { Content } from "components/Content"
+import { Content } from "pages/home/Content"
 
 const Home = () => {
 

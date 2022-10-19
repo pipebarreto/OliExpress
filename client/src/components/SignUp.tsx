@@ -43,7 +43,6 @@ export default function CreateUser({ newUser}:any) {
   }
 
   const handleGoogleOnSuccess = async (response: CredentialResponse) =>{
-    console.log('response:', response)
     if (response.credential){
       const res =await axios.post(
         'http://localhost:4000/api/v1/login',

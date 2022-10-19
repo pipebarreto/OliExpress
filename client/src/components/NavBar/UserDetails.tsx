@@ -7,12 +7,12 @@ import Divider from '@mui/material/Divider'
 import { fetchProductsThunk } from 'redux/productSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'redux/store'
-import CreateProduct from './CreateProduct'
+import CreateProduct from '../CreateProduct'
 import { Product } from 'types'
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LogoutIcon from '@mui/icons-material/Logout';
-import EditUser from './EditUser'
+import EditUser from '../EditUser'
 import { fetchUserThunk } from 'redux/userSlice'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -32,7 +32,6 @@ export default function UserDetails() {
   })
 
   const { user } = useSelector((state: RootState) => state)
-  console.log(user)
   
 
   const addProduct =(newProduct: Product)=>{
@@ -132,10 +131,12 @@ export default function UserDetails() {
     <div>
       {(['left'] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton style={{color:'#c1eff4'}} onClick={toggleDrawer(anchor, true)}>
-            <AccountCircleIcon fontSize='large'/>
-            Profile 
-          </IconButton>
+          <Button style={{color:'#c1eff4',fontSize: 20}}
+            onClick={toggleDrawer(anchor, true)}
+             startIcon={<Avatar alt={user.name} src={user.picture}/>}>
+            Settings
+          </Button>     
+
           <Drawer
           variant="persistent"
             anchor={anchor}

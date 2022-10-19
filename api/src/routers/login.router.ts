@@ -35,7 +35,6 @@ router.post(
 
 router.post('/login2', async (req, res) => {
   try {
-    console.log(req.body)
     const { email, password } = req.body
     if (!(email && password)) {
       res.status(400).send('All field are required')
@@ -49,15 +48,11 @@ router.post('/login2', async (req, res) => {
           expiresIn: '1d',
         }
       )
-      console.log(token)
-
       res.json({ token })
       res.status(200).json(user)
     }
     res.status(400).send('Invalid Credentials')
-  } catch (err) {
-    console.log(err)
-  }
+  } catch (err) {}
 })
 
 router.post('/signup', async (req, res) => {
@@ -93,9 +88,7 @@ router.post('/signup', async (req, res) => {
     )
     res.json({ token })
     res.status(201).json(user)
-  } catch (err) {
-    console.log(err)
-  }
+  } catch (err) {}
 })
 
 export default router

@@ -19,8 +19,6 @@ export const createOrder = async (
       ownerId,
     })
 
-    console.log(order)
-
     const productOrder = await productService.findById(product)
     order.total_price = quantity * productOrder.price
 

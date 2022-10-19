@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "redux/store";
 import { Snackbar } from '@mui/material';
 import { fetchProductsThunk } from "redux/productSlice";
-import EditProduct from "./EditProduct";
+import EditProduct from "../../components/EditProduct";
 import { Product } from "types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchUserThunk } from "redux/userSlice";
@@ -104,7 +104,7 @@ export default function ProductCard (props:any){
   return(   
   <div style ={{margin:10}}>
 
-    <Card variant="elevation" elevation={5} sx={{ width: 250, height:heightNumber, padding:0}}>
+    <Card variant="elevation" elevation={1} sx={{ width: 250, height:heightNumber, padding:0}}>
     <CardActionArea>
 
     <CardMedia

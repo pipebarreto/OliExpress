@@ -3,7 +3,7 @@ import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import { useSelector, useDispatch } from 'react-redux'
 import { Box, Typography, IconButton, ListItemButton, ListItemAvatar, Avatar, ListItemText } from '@mui/material'
-import { AppDispatch, RootState } from '../redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Divider from '@mui/material/Divider'
@@ -139,7 +139,7 @@ export default function () {
         <React.Fragment key={anchor}>
           <IconButton style={{color: '#c1eff4'}} onClick={toggleDrawer(anchor, true)}>
             <Badge color="warning" badgeContent={orderList.length}>
-              Cart
+              CART
               <ShoppingCartIcon/>
             </Badge>
           </IconButton>

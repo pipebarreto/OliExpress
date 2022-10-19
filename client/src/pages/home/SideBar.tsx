@@ -13,19 +13,21 @@ export function SideBar({filterCategory}:any) {
   }, [category])
 
   const ButtonStyle = {
-    fontSize: 30
+    fontSize: 30,
+    color:'white'
   };
 
   return (
-    <Card variant="elevation" elevation={20} sx={{ width: 280, height:'auto', padding:6, backgroundColor: '#ffd6c9'}}>
+    <Card variant="elevation" elevation={20} 
+          sx={{ width: 280, height:'auto', padding:6, backgroundColor: '#1976d2'}}>
       <Typography gutterBottom variant="h5" style={ButtonStyle}>
         CATEGORIES <CategoryIcon />
       </Typography>
       {category!=""?
-      <Typography gutterBottom variant="body1" fontStyle='italic'>
+      <Typography gutterBottom variant="body1" style={{color:'white'}} fontStyle='italic'>
         Filtering by: {category}
       </Typography>:
-      <Typography gutterBottom variant="body1" fontStyle='italic'>
+      <Typography gutterBottom variant="body1" style={{color:'white'}}  fontStyle='italic'>
       Showing All
       </Typography>}
 

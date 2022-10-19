@@ -4,7 +4,7 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import { useEffect, useState } from "react";
 import { Avatar, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditUserAdmin from './EditUserAdmin';
+import EditUserAdmin from '../../components/EditUserAdmin';
 
 
 export function Dashboard2(){
@@ -45,7 +45,6 @@ export function Dashboard2(){
   }
 
   const editUser =(updatedUser:any)=>{
-    console.log(updatedUser);
     fetch(`http://localhost:4000/api/v1/users/${updatedUser._id}`,
       {method:'PUT',
       headers:{'Content-Type': 'application/json',
@@ -61,10 +60,7 @@ export function Dashboard2(){
     })
     .catch(err => console.error(err))
   }
-
-
-  console.log(users);
-  
+ 
   const columns = [
     {field: '_id', headerName:'Id', sortable: true, filter: true, floatingFilter: true},
     {field: 'picture', headerName:'Picture', cellRenderer: (image: any|undefined)=>

@@ -18,7 +18,6 @@ export const createUser = async (
       email,
       picture,
       isAdmin,
-      //category,
     })
 
     await userService.create(user)

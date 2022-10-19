@@ -8,11 +8,9 @@ export default function (req: Request, res: Response, next: NextFunction) {
   try {
     const authorizationHeader = req.headers.authorization
     if (authorizationHeader) {
-      console.log('authorizationHeader:', authorizationHeader)
       const token = authorizationHeader.split(' ')[1]
 
       const decodedUser = jwt.verify(token, JWT_SECRET)
-      console.log('decodedUser:', decodedUser)
 
       req.user = decodedUser
       return next()

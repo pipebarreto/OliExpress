@@ -5,8 +5,8 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode'
 import CartList from './CartList'
 import UserDetails from './UserDetails'
-import Logging from './Logging'
-import SignUp from './SignUp';
+import Logging from '../Logging'
+import SignUp from '../SignUp';
 import { NavigationMenu } from './NavigationMenu';
 
 
@@ -44,7 +44,7 @@ export function NavBar() {
 
   return (
     <div>
-      <AppBar style={{marginLeft: 100}} position=	'fixed' color="primary" enableColorOnDark>
+      <AppBar  position=	'fixed' color="primary" enableColorOnDark>
         <Toolbar>
           {user &&(
           <UserDetails />)
@@ -56,7 +56,6 @@ export function NavBar() {
             align="center"
             variant="h4"
             noWrap
-            style={{color: "#ffd6c9"}}
             component="div"
             sx={{ flex: 1 }}>
             Welcome to OliExpress!
