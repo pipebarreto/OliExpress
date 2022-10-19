@@ -7,6 +7,7 @@ import CartList from './CartList'
 import UserDetails from './UserDetails'
 import Logging from './Logging'
 import SignUp from './SignUp';
+import { NavigationMenu } from './NavigationMenu';
 
 
 export function NavBar() {
@@ -43,11 +44,14 @@ export function NavBar() {
 
   return (
     <div>
-      <AppBar position=	'fixed' color="primary" enableColorOnDark>
+      <AppBar style={{marginLeft: 100}} position=	'fixed' color="primary" enableColorOnDark>
         <Toolbar>
           {user &&(
           <UserDetails />)
           }
+                {user?.isAdmin &&(
+      <NavigationMenu/>
+      )}
           <Typography
             align="center"
             variant="h4"

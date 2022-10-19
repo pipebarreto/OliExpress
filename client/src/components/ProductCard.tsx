@@ -93,12 +93,18 @@ export default function ProductCard (props:any){
     }
   }
 
-  console.log(user)
+  let heightNumber=400;
+  if (user){
+    heightNumber=445;
+    if(user.isAdmin){
+      heightNumber=480;
+    }
+  }
 
   return(   
   <div style ={{margin:10}}>
 
-    <Card variant="elevation" elevation={5} sx={{ width: 250, height:500, padding:0}}>
+    <Card variant="elevation" elevation={5} sx={{ width: 250, height:heightNumber, padding:0}}>
     <CardActionArea>
 
     <CardMedia
@@ -124,7 +130,6 @@ export default function ProductCard (props:any){
       </CardActionArea>
 
       {user?
-      <CardActions >
 
     
       <Grid container direction="column"
@@ -137,7 +142,7 @@ export default function ProductCard (props:any){
           <Button onClick={() => {setQuantity(quantity+1)}}>+</Button>   
         </Grid>
 
-      <IconButton variant="outlined" onClick={() => addToCart(props.product._id, quantity, user.id)}>
+      <IconButton variant="contained" onClick={() => addToCart(props.product._id, quantity, user.id)}>
       <ShoppingCart />
         Add to cart
       </IconButton> 
@@ -152,7 +157,6 @@ export default function ProductCard (props:any){
       )}
        
       </Grid>
-      </CardActions>
 
       :<IconButton variant="outlined" disabled> <ShoppingCart />
         Sign in to start shopping

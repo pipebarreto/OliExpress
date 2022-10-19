@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'redux/store';
 import { Product } from 'types';
+import { OrderBy } from './OrderBy';
 import ProductCard from './ProductCard';
 import { SideBar } from './SideBar';
 
@@ -22,11 +23,24 @@ export function Content(){
       const filtering =(filtering2:string) =>{
         setCategory(filtering2)
       }
-
+      
      const productList = products.items.filter((item)  => {
         return (Object.values(item).join('').toLowerCase().includes(productName.toLowerCase()) &&
         Object.values(item).join('').toLowerCase().includes(category.toLowerCase()))
-    })
+    }).sort((b, a) => { 
+      if(a==null){
+        return -1
+      }
+      let ab  = a.name.toLowerCase(),
+          ac = b.name.toLowerCase();  
+      if (ab > ac) {
+          return -1;
+      }
+      if (ab > ac) {
+          return 1;
+      }
+      return 0;
+  })
 
     return (
 
@@ -50,6 +64,8 @@ export function Content(){
     </div>  
 
       <div style={{position:"fixed", paddingLeft:60, paddingTop:30}}>
+
+    <OrderBy />
     <SideBar  filterCategory={filtering}/>
     </div>
     

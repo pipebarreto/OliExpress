@@ -15,11 +15,13 @@ const create = async (order: OrderDocument): Promise<UserDocument | any> => {
 }
 
 const findAll = async (): Promise<OrderDocument[]> => {
-  return Order.find().populate('product')
+  return Order.find().populate('product').populate('ownerId')
 }
 
 const findById = async (orderId: string): Promise<OrderDocument> => {
-  const foundOrder = await Order.findById(orderId).populate('product')
+  const foundOrder = await Order.findById(orderId)
+    .populate('product')
+    .populate('ownerId')
 
   if (!foundOrder) {
     throw new NotFoundError(`Order ${orderId} not found`)

@@ -17,9 +17,6 @@ router.post(
   passport.authenticate('google-id-token', { session: false }),
   (req, res) => {
     const user: any = req.user
-    if (user.email == env.administrator) {
-      user.isAdmin = true
-    }
     const token = jwt.sign(
       {
         userId: user.email,
@@ -40,7 +37,6 @@ router.post('/login2', async (req, res) => {
   try {
     console.log(req.body)
     const { email, password } = req.body
-    console.log(email + 'test!!!!!!!!!!!' + password)
     if (!(email && password)) {
       res.status(400).send('All field are required')
     }
@@ -77,14 +73,16 @@ router.post('/signup', async (req, res) => {
     }
     const encryptedPassword = await bcrypt.hash(password, 10)
 
+    let isAdmin = false
+    if (email == env.administrator) {
+      isAdmin = true
+    }
+
     const user = await User.create({
       email: email.toLowerCase(),
       password: encryptedPassword,
+      isAdmin: isAdmin,
     })
-
-    if (user.email == env.administrator) {
-      user.isAdmin = true
-    }
 
     const token = jwt.sign(
       { id: user._id, email, isAdmin: user.isAdmin },

@@ -1,6 +1,7 @@
 import GoogleTokenStrategy from 'passport-google-id-token'
 import { GOOGLE_CLIENT_ID } from '../util/secrets'
 import User from '../models/User'
+import { env } from 'process'
 
 interface ParsedToken {
   payload: {
@@ -29,9 +30,6 @@ export function loginWithGoogle() {
       done: VerifiedCallback
     ) => {
       try {
-        console.log('googleId:', googleId)
-        console.log('parsedToken:', parsedToken)
-
         let user: any = await User.findOne({
           email: parsedToken.payload.email,
         })
@@ -42,6 +40,11 @@ export function loginWithGoogle() {
             picture: parsedToken.payload.picture,
             isAdmin: false,
           })
+          if (user.email == env.administrator) {
+            user.isAdmin = true
+          } else {
+            user.isAdmin = false
+          }
           user.save()
         }
 

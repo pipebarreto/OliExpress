@@ -118,7 +118,8 @@ export default function UserDetails() {
       <Button sx={{fontSize: 20, paddingTop:'10px'}}  endIcon ={<LogoutIcon />}
                     onClick={() =>{localStorage.removeItem('token');
                     localStorage.removeItem('authUser');
-                    window.location.reload();}}>Log Out</Button>
+                    window.location.href = '/home';       
+                    }}>Log Out</Button>
       <List>
        
       </List>

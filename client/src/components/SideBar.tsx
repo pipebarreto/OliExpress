@@ -13,11 +13,11 @@ export function SideBar({filterCategory}:any) {
   }, [category])
 
   const ButtonStyle = {
-    fontSize: 35
+    fontSize: 30
   };
 
   return (
-    <Card variant="elevation" elevation={20} sx={{ width: 300, height:'auto', padding:6}}>
+    <Card variant="elevation" elevation={20} sx={{ width: 280, height:'auto', padding:6, backgroundColor: '#ffd6c9'}}>
       <Typography gutterBottom variant="h5" style={ButtonStyle}>
         CATEGORIES <CategoryIcon />
       </Typography>

@@ -5,41 +5,35 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Product } from 'types';
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { useEffect } from 'react';
+import { Product } from 'types';
 import { FormControl, InputLabel } from '@mui/material';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+import EditIcon from '@mui/icons-material/Edit';
 
-
-
-export default function EditProduct({params, editProduct}:any) {
+export default function EditUserAdmin({params, editUser}:any) {
   const [open, setOpen] = React.useState(false);
 
-  if (params.product !=undefined){
-  params=params.product;
-  }
-
-
-  const[product, setProduct]=React.useState({
+  const[user, setUser]=React.useState({
       name:params.name,
-      description:params.description,
-      category:params.category,
-      image:params.image,
-      price:params.price,
+      address:params.address,
+      picture:params.picture,
+      email:params.email,
+      isAdmin:params.isAdmin,
       _id:params._id
   });
 
-
   const handleClickOpen = () => {
-    setProduct({
+    setUser({
         name:params.name,
-        description:params.description,
-        category:params.category,
-        image:params.image,
-        price:params.price,
+        address:params.address,
+        picture:params.picture,
+        email:params.email,
+        isAdmin:params.isAdmin,
         _id:params._id
     })
     setOpen(true);
@@ -50,94 +44,100 @@ export default function EditProduct({params, editProduct}:any) {
   };
 
   const handleSave= () => {
-    editProduct(product);
+    editUser(user);
+    setUser({
+        name:'',
+        address:'',
+        picture:'',
+        email:'',
+        isAdmin:'',
+        _id:''
+    })
+
     setOpen(false);
   };
 
   const inputChanged=(event: any)=>{
-      setProduct({...product, [event.target.name]: event.target.value});
+      setUser({...user, [event.target.name]: event.target.value});
   }
 
   return (
     <div>
-        <IconButton  onClick={handleClickOpen}>
-        <EditIcon />
-      </IconButton>
+      <Button sx={{fontSize: 20 , paddingTop:'10px'}} onClick={handleClickOpen}
+          endIcon ={<EditIcon />}>
+      </Button>
+
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Product</DialogTitle>
+        <DialogTitle>Edit User</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
             name='name'
-            value={product.name}
+            value={user.name}
             onChange={inputChanged}
             label="Name"
             fullWidth
             variant="standard"
           />
-          <TextField
-            multiline={true}
+           <TextField
             margin="dense"
-            name='description'
-            value={product.description}
+            name='picture'
+            value={user.picture}
             onChange={inputChanged}
-            label="Description"
+            label="Picture"
             fullWidth
             variant="standard"
           />
-          <TextField
+           <TextField
             margin="dense"
-            name='image'
-            value={product.image}
+            name='address'
+            value={user.address}
             onChange={inputChanged}
-            label="Image (URL)"
+            label="Address"
             fullWidth
             variant="standard"
           />
-          <TextField
+            <TextField
             margin="dense"
-            name='price'
-            type="number"
-            value={product.price}
+            name='email'
+            value={user.email}
             onChange={inputChanged}
-            label="Price"
+            label="Email"
             fullWidth
             variant="standard"
           />
         <FormControl variant="standard" sx={{ minWidth: 200 }}>
-        <InputLabel id="demo-simple-select-filled-label">Category</InputLabel>
+        <InputLabel id="demo-simple-select-filled-label">Admin Access</InputLabel>
         <Select
-                    name='category'
-                    value={product.category}
+                    name='isAdmin'
+                    value={user.isAdmin}
                     onChange={inputChanged}
                     fullWidth
-                    label="Price"
+                    label="Admin Access"
                     variant="standard">
-              <MenuItem value={'Beauty'}>Beauty</MenuItem>
-            <MenuItem value={'Fashion'}>Fashion</MenuItem>
-            <MenuItem value={'Furniture'}>Furniture</MenuItem>
-            <MenuItem value={'Other'}>Other</MenuItem>
-            <MenuItem value={'Toys'}>Toys</MenuItem>
-            <MenuItem value={'Technology'}>Technology</MenuItem>
+              <MenuItem value={'false'}>False</MenuItem>
+            <MenuItem value={'true'}>True</MenuItem>
         </Select>
         </FormControl>
+
         <TextField
             margin="dense"
             name='_id'
             disabled
-            value={product._id}
+            value={user._id}
             onChange={inputChanged}
-            label="id"
+            label="User id"
             fullWidth
             variant="standard"
           />
-
-
+         
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSave}>Save</Button>
         </DialogActions>
+
+        
       </Dialog>
     </div>
   );

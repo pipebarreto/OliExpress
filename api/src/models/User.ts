@@ -16,6 +16,7 @@ const serviceSchema = new mongoose.Schema({
   email: {
     type: String,
     index: true,
+    unique: true,
   },
   name: {
     type: String,
