@@ -96,6 +96,22 @@ export const findByProductName = async (
   }
 }
 
+export const findByCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(await productService.findByCategory(req.params.category))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', 400, error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 export const updateProduct = async (
   req: Request,
   res: Response,

@@ -27,6 +27,16 @@ const findByProductName = async (
   return foundProduct
 }
 
+const findByCategory = async (category: string): Promise<ProductDocument[]> => {
+  const foundProduct = await Product.find({ category: category })
+  if (!foundProduct) {
+    throw new NotFoundError(
+      `Products with the following category "${category}" not found`
+    )
+  }
+  return foundProduct
+}
+
 const deleteProduct = async (
   productId: string
 ): Promise<ProductDocument | null> => {
@@ -58,4 +68,5 @@ export default {
   updateProduct,
   findById,
   findByProductName,
+  findByCategory,
 }

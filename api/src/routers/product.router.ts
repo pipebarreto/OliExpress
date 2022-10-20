@@ -4,6 +4,7 @@ import {
   createProduct,
   deleteProduct,
   findAll,
+  findByCategory,
   findById,
   findByProductName,
   updateProduct,
@@ -17,5 +18,6 @@ router.delete('/:productId', checkAuth, deleteProduct)
 router.put('/:productId', checkAuth, updateProduct)
 router.get('/:productId', findById)
 router.get('/name/:productName', findByProductName)
+router.get('/category/:category', findByCategory)
 
 export default router

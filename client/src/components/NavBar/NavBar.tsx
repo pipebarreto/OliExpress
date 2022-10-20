@@ -21,12 +21,16 @@ export function NavBar() {
         {"email":user.email, "password":user.password
         }
       )
-      const token =res.data.token;
+      .then(response=>{
+      const token =response.data.token;
       const authUser = jwtDecode(token);
       localStorage.setItem('authUser', JSON.stringify(authUser))
       localStorage.setItem('token', token)
       window.location.reload();
+      })
+      .catch(err => alert(err.response.data))
   }
+
 
   const signUp = async (user: any) =>{
     const res =await axios.post(
@@ -34,12 +38,15 @@ export function NavBar() {
       {"email":user.email, "password":user.password
       }
     )
-    const token =res.data.token;
-    const authUser = jwtDecode(token);
-    localStorage.setItem('authUser', JSON.stringify(authUser))
-    localStorage.setItem('token', token)
-    window.location.reload();
-}
+    .then(response=>{
+      const token =response.data.token;
+      const authUser = jwtDecode(token);
+      localStorage.setItem('authUser', JSON.stringify(authUser))
+      localStorage.setItem('token', token)
+      window.location.reload();
+      })
+      .catch(err => alert(err.response.data))
+  }
 
 
   return (
