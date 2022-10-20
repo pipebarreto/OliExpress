@@ -4,7 +4,7 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import { useEffect, useState } from "react";
 import { Avatar, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditUserAdmin from '../../components/EditUserAdmin';
+import EditUserAdmin from './EditUserAdmin';
 
 
 export function Dashboard2(){

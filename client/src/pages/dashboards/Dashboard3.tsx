@@ -1,32 +1,29 @@
 import {AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
-import { useEffect, useState } from "react";
 import { Avatar } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditProduct from '../../components/EditProduct';
+import EditProduct from '../home/productCard/EditProduct';
 import { Product } from 'types';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'redux/store';
+import { fetchProductsThunk } from 'redux/productSlice';
+import { useEffect } from 'react';
 
 
 export function Dashboard3(){
 
-    const[products, setProducts]= useState([]);
-
     const token = localStorage.getItem('token');
     
-    useEffect(()=> fetchData(), []);
+    const dispatch = useDispatch<AppDispatch>()
+    const { products } = useSelector((state: RootState) => state)
 
-  const fetchData =()=>{
-    fetch('http://localhost:4000/api/v1/products/',
-      {method:'GET',
-      headers:{'Content-Type': 'application/json',
-                Authorization:`Bearer ${token}`},
-    })
-    .then(response=>response.json())
-    .then(data=>setProducts(data))
-    .catch(err => console.error(err))
-  }
+    const productList = products.items;
+
+    useEffect(() => {
+      dispatch(fetchProductsThunk())
+    }, [dispatch])
 
   const deleteProduct =(id:string) => {
     if (window.confirm('Are you sure? Product will be deleted')){
@@ -37,7 +34,7 @@ export function Dashboard3(){
         if (!response.ok){
           alert('Something went wrong');
         }else{
-            fetchData();
+          dispatch(fetchProductsThunk())
         }
           return;
       })
@@ -54,7 +51,7 @@ export function Dashboard3(){
     })
     .then(response=>{
       if (response.ok) {
-        fetchData();
+        dispatch(fetchProductsThunk())
         } 
       else{
        alert('Something went wrong');}
@@ -94,7 +91,7 @@ export function Dashboard3(){
 
         <AgGridReact
           //onGridReady={onGridReady}
-          rowData={products}
+          rowData={productList}
           columnDefs={columns}
           rowHeight={75}
           suppressCellFocus={true}

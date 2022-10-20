@@ -13,10 +13,8 @@ const Home = () => {
       dispatch(fetchProductsThunk())
     }, [dispatch])
 
-
   return (
   <>
-
 
   <Content />
 

@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography'
 import axios from 'axios';
 import jwtDecode from 'jwt-decode'
 import CartList from './CartList'
-import UserDetails from './UserDetails'
-import Logging from '../Logging'
-import SignUp from '../SignUp';
+import UserDetails from './userDetails/UserDetails'
+import Logging from './login/Logging'
+import SignUp from './login/SignUp';
 import { NavigationMenu } from './NavigationMenu';
 
 

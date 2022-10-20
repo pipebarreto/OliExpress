@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "redux/store";
 import { Snackbar } from '@mui/material';
 import { fetchProductsThunk } from "redux/productSlice";
-import EditProduct from "../../components/EditProduct";
+import EditProduct from "./EditProduct";
 import { Product } from "types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchUserThunk } from "redux/userSlice";
@@ -158,7 +158,7 @@ export default function ProductCard (props:any){
        
       </Grid>
 
-      :<IconButton variant="outlined" disabled> <ShoppingCart />
+      :<IconButton variant="contained" disabled> <ShoppingCart />
         Sign in to start shopping
       </IconButton>}
       

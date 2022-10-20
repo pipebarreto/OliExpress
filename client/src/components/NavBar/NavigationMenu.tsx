@@ -4,10 +4,10 @@ import 'ag-grid-community/dist/styles/ag-theme-material.css';
 import { useEffect, useState } from "react";
 import { Avatar } from '@material-ui/core';
 import {  BrowserRouter,  Routes,  Route,   Link, NavLink} from"react-router-dom";
-import { Dashboard } from '../../pages/dashboard/Dashboard';
-import { Dashboard3 } from '../../pages/dashboard/Dashboard3';
+import { Dashboard } from '../../pages/dashboards/Dashboard';
+import { Dashboard3 } from '../../pages/dashboards/Dashboard3';
 import Home from 'pages/home/Home';
-import { Dashboard2 } from '../../pages/dashboard/Dashboard2';
+import { Dashboard2 } from '../../pages/dashboards/dashboard2/Dashboard2';
 
 
 export function NavigationMenu(){

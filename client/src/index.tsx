@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import reportWebVitals from 'reportWebVitals';
-import App from './components/App';
+import App from './App';
 import { store } from 'redux/store';
 import 'index.css';
 

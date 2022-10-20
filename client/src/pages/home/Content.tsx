@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'redux/store';
 import { Product } from 'types';
 import { OrderBy } from '../../components/OrderBy';
-import ProductCard from './ProductCard';
+import ProductCard from './productCard/ProductCard';
 import { SideBar } from './SideBar';
 
 export function Content(){
