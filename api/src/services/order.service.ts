@@ -38,12 +38,12 @@ const deleteOrder = async (
   if (!foundOrder) {
     throw new NotFoundError(`Order ${orderId} not found`)
   } else {
-    User.findOneAndUpdate(
+    foundOrder.exec()
+    return User.findOneAndUpdate(
       { _id: userId.userId },
       { $pull: { orders: orderId } }
     )
   }
-  return foundOrder
 }
 
 const updateOrder = async (
