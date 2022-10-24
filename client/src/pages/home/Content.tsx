@@ -27,7 +27,7 @@ export function Content(){
       
      const productList = products.items.filter((item)  => {
         return (Object.values(item).join('').toLowerCase().includes(productName.toLowerCase()) &&
-        Object.values(item).join('').toLowerCase().includes(category.toLowerCase()))
+        Object.values(item).join('').toLowerCase().match(category.toLowerCase()))
     }).sort((a, b) =>
     a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
     //a.price-b.price

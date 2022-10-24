@@ -1,7 +1,4 @@
 import {Navigate, Outlet,} from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
-import React from 'react';
-
 
 export const ProtectedRoute = ({
     children,

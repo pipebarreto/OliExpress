@@ -1,0 +1,39 @@
+CREATE TABLE users (
+	id serial PRIMARY KEY,
+	name varchar(20),
+	email varchar(20) NOT NULL,
+	picture varchar(100),
+	password varchar(100) NOT NULL,
+	address varchar (40),
+	isAdmin	boolean NOT NULL,
+)
+
+CREATE INDEX idx_uname ON users (name);
+
+
+CREATE TYPE categories AS ENUM ('Fashion', 'Technology', 'Toys', 'Furniture', 'Beauty', 'Other');
+CREATE TABLE products (
+	id serial PRIMARY KEY,
+	name varchar(20) NOT NULL,
+	description varchar(255) NOT NULL,
+	image varchar(100),
+	category categories,
+	price NUMERIC(6, 2) NOT NULL
+)
+
+
+CREATE TABLE orders (
+	id serial PRIMARY KEY,
+	quantity smallint NOT NULL,	
+	total_price NUMERIC(8, 2) NOT NULL,
+	product	int REFERENCES products(id) NOT NULL,
+	onnwerId int REFERENCES users(id) NOT NULL
+)
+
+
+
+INSERT INTO products (name,description,price) VALUES("iPhone 13", "Apple iPhone 13", 1300)
+
+UPDATE products SET price = 123 WHERE id=1
+
+DELETE FROM products WHERE id=1;
