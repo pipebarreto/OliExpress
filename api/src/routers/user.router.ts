@@ -1,4 +1,5 @@
 import express from 'express'
+import checkAdmin from '../middlewares/checkAdmin'
 import {
   createUser,
   deleteUser,
@@ -6,13 +7,12 @@ import {
   findById,
   updateUser,
 } from '../controllers/user.controller'
-import checkAuth from '../middlewares/checkAuth'
 
 const router = express.Router()
 
 router.get('/', findAll)
 router.post('/', createUser)
-router.delete('/:userId', deleteUser)
+router.delete('/:userId', checkAdmin, deleteUser)
 router.put('/:userId', updateUser)
 router.get('/:userId', findById)
 

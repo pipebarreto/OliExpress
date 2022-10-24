@@ -19,9 +19,9 @@ router.post(
     const user: any = req.user
     const token = jwt.sign(
       {
+        id: user._id,
         userId: user.email,
         isAdmin: user.isAdmin,
-        id: user._id,
         name: user.name,
         picture: user.picture,
       },
@@ -75,8 +75,8 @@ router.post('/signup', async (req, res) => {
 
     const user = await User.create({
       email: email.toLowerCase(),
-      password: encryptedPassword,
       isAdmin: isAdmin,
+      password: encryptedPassword,
     })
 
     const token = jwt.sign(
